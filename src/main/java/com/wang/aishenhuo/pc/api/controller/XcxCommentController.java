@@ -53,7 +53,6 @@ public class XcxCommentController {
 //		$data['img'] = htmlspecialchars_decode(I('img',''));
 		
 		int i = xcxCommentService.insertSelective(db);
-		
 
 		if(i>0) {
 			j.put("status", 1);
@@ -65,13 +64,12 @@ public class XcxCommentController {
 		return j;
 	}
 
-
 	@RequestMapping("/comment/get_count")
 	public JSONObject get_count(XcxComment xcxComment,String sk, HttpServletRequest request) {
 
 		JSONObject j = new JSONObject();
 
-		XcxUser user = xcxUserService.getXcxUser(sk);
+//		XcxUser user = xcxUserService.getXcxUser(sk);
 //		用户信息是否有意义，删除权限控制
 //		xcxComment.setUid(user.getId());
 //		$where['iid'] = I('id');

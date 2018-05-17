@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 
 /**
  * 
- * xcx_myfav
+ * xcx_info
  *
  * @mbggenerated 2018-05-17 09:51:53
  */
-public class XcxMyfav {
+public class XcxInfo {
     /**
      *
-     * xcx_myfav.id
+     * xcx_info.id
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -19,7 +19,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.date
+     * xcx_info.date
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -27,7 +27,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.time
+     * xcx_info.time
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -35,7 +35,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.departure
+     * xcx_info.departure
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -43,7 +43,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.destination
+     * xcx_info.destination
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -51,7 +51,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.gender
+     * xcx_info.gender
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -59,7 +59,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.name
+     * xcx_info.name
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -67,7 +67,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.phone
+     * xcx_info.phone
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -75,7 +75,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.surplus
+     * xcx_info.surplus
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -83,7 +83,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.type
+     * xcx_info.type
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -91,7 +91,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.vehicle
+     * xcx_info.vehicle
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -99,7 +99,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.uid
+     * xcx_info.uid
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -107,7 +107,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.status
+     * xcx_info.status
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -115,7 +115,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.see
+     * xcx_info.see
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -123,7 +123,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.price
+     * xcx_info.price
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -131,7 +131,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.addtime
+     * xcx_info.addtime
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -139,7 +139,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.avatarUrl
+     * xcx_info.avatarUrl
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -147,15 +147,7 @@ public class XcxMyfav {
 
     /**
      *
-     * xcx_myfav.fad
-     *
-     * @mbggenerated 2018-05-17 09:51:53
-     */
-    private Integer fad;
-
-    /**
-     *
-     * xcx_myfav.remark
+     * xcx_info.remark
      *
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -397,20 +389,6 @@ public class XcxMyfav {
      */
     public void setAvatarurl(String avatarurl) {
         this.avatarurl = avatarurl == null ? null : avatarurl.trim();
-    }
-
-    /**
-     * @mbggenerated 2018-05-17 09:51:53
-     */
-    public Integer getFad() {
-        return fad;
-    }
-
-    /**
-     * @mbggenerated 2018-05-17 09:51:53
-     */
-    public void setFad(Integer fad) {
-        this.fad = fad;
     }
 
     /**

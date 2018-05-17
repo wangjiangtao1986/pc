@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XcxMyfavExample {
+public class XcxInfoExample {
     /**
      * @mbggenerated 2018-05-17 09:51:53
      */
@@ -20,7 +20,7 @@ public class XcxMyfavExample {
      */
     protected List<Criteria> oredCriteria;
 
-    public XcxMyfavExample() {
+    public XcxInfoExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -1221,66 +1221,6 @@ public class XcxMyfavExample {
 
         public Criteria andAvatarurlNotBetween(String value1, String value2) {
             addCriterion("avatarUrl not between", value1, value2, "avatarurl");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadIsNull() {
-            addCriterion("fad is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadIsNotNull() {
-            addCriterion("fad is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadEqualTo(Integer value) {
-            addCriterion("fad =", value, "fad");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadNotEqualTo(Integer value) {
-            addCriterion("fad <>", value, "fad");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadGreaterThan(Integer value) {
-            addCriterion("fad >", value, "fad");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadGreaterThanOrEqualTo(Integer value) {
-            addCriterion("fad >=", value, "fad");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadLessThan(Integer value) {
-            addCriterion("fad <", value, "fad");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadLessThanOrEqualTo(Integer value) {
-            addCriterion("fad <=", value, "fad");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadIn(List<Integer> values) {
-            addCriterion("fad in", values, "fad");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadNotIn(List<Integer> values) {
-            addCriterion("fad not in", values, "fad");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadBetween(Integer value1, Integer value2) {
-            addCriterion("fad between", value1, value2, "fad");
-            return (Criteria) this;
-        }
-
-        public Criteria andFadNotBetween(Integer value1, Integer value2) {
-            addCriterion("fad not between", value1, value2, "fad");
             return (Criteria) this;
         }
     }
