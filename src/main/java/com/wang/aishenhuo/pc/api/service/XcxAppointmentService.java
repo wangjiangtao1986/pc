@@ -3,6 +3,7 @@ package com.wang.aishenhuo.pc.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -23,27 +24,35 @@ public class XcxAppointmentService {
 		return xcxAppointmentMapper.selectByExample(new XcxAppointmentExample());
 	}
 	
-	public XcxAppointment getXcxAppointment(Integer id) {
+	public XcxAppointment getXcxAppointment(String id) {
 		return xcxAppointmentMapper.selectByPrimaryKey(id);
 	}
 
 	public List<XcxAppointment> selectByExample(XcxAppointment record) {
 		List<XcxAppointment> list = new ArrayList<XcxAppointment>();
-		XcxAppointmentExample e = new XcxAppointmentExample();
-		Criteria c = e.createCriteria();
-		c.andUidEqualTo(record.getUid());
-		
-		e.setOrderByClause(" time desc ");
-		
-		if(!ObjectUtils.isEmpty(record)) {
+		if(!ObjectUtils.isEmpty(record)&&(!StringUtils.isEmpty(record.getUid())||!StringUtils.isEmpty(record.getIid()))) {
+			XcxAppointmentExample e = new XcxAppointmentExample();
+			Criteria c = e.createCriteria();
+			if(!ObjectUtils.isEmpty(record.getUid())) {
+				c.andUidEqualTo(record.getUid());
+			}
+			if(!StringUtils.isEmpty(record.getIid())) {
+				c.andIidEqualTo(record.getIid());
+			}
+			e.setOrderByClause(" time desc ");
 			list = xcxAppointmentMapper.selectByExample(e);
 		}
 		return list;
 	}
 
 
-	public int insertSelective(XcxAppointment xcxAppointment) {
-		return xcxAppointmentMapper.insertSelective(xcxAppointment);
+	public int insertSelective(XcxAppointment record) {
+		return xcxAppointmentMapper.insertSelective(record);
+	}
+
+
+	public int updateByPrimaryKey(XcxAppointment record) {
+		return xcxAppointmentMapper.updateByPrimaryKey(record);
 	}
 	
 

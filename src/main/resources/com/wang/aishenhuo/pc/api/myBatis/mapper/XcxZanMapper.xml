@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wang.aishenhuo.pc.api.myBatis.mapper.XcxZanMapper">
   <resultMap id="BaseResultMap" type="com.wang.aishenhuo.pc.api.myBatis.model.XcxZan">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
-    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="cid" jdbcType="VARCHAR" property="cid" />
     <result column="time" jdbcType="INTEGER" property="time" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -82,15 +82,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from xcx_zan
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from xcx_zan
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxZanExample">
     delete from xcx_zan
@@ -101,7 +101,7 @@
   <insert id="insert" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxZan">
     insert into xcx_zan (id, uid, cid, 
       time)
-    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, 
       #{time,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxZan">
@@ -122,13 +122,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
+        #{uid,jdbcType=VARCHAR},
       </if>
       <if test="cid != null">
-        #{cid,jdbcType=INTEGER},
+        #{cid,jdbcType=VARCHAR},
       </if>
       <if test="time != null">
         #{time,jdbcType=INTEGER},
@@ -145,13 +145,13 @@
     update xcx_zan
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=INTEGER},
+        uid = #{record.uid,jdbcType=VARCHAR},
       </if>
       <if test="record.cid != null">
-        cid = #{record.cid,jdbcType=INTEGER},
+        cid = #{record.cid,jdbcType=VARCHAR},
       </if>
       <if test="record.time != null">
         time = #{record.time,jdbcType=INTEGER},
@@ -163,9 +163,9 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update xcx_zan
-    set id = #{record.id,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER},
-      cid = #{record.cid,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=VARCHAR},
+      cid = #{record.cid,jdbcType=VARCHAR},
       time = #{record.time,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -175,22 +175,22 @@
     update xcx_zan
     <set>
       <if test="uid != null">
-        uid = #{uid,jdbcType=INTEGER},
+        uid = #{uid,jdbcType=VARCHAR},
       </if>
       <if test="cid != null">
-        cid = #{cid,jdbcType=INTEGER},
+        cid = #{cid,jdbcType=VARCHAR},
       </if>
       <if test="time != null">
         time = #{time,jdbcType=INTEGER},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxZan">
     update xcx_zan
-    set uid = #{uid,jdbcType=INTEGER},
-      cid = #{cid,jdbcType=INTEGER},
+    set uid = #{uid,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=VARCHAR},
       time = #{time,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

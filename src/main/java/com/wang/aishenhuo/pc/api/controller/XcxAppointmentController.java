@@ -2,307 +2,253 @@ package com.wang.aishenhuo.pc.api.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointment;
+import com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentCount;
+import com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentDetail;
+import com.wang.aishenhuo.pc.api.myBatis.model.XcxInfo;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxMsg;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxMsgSee;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxPassenger;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxUser;
+import com.wang.aishenhuo.pc.api.service.XcxAppointmentCountService;
+import com.wang.aishenhuo.pc.api.service.XcxAppointmentDetailService;
 import com.wang.aishenhuo.pc.api.service.XcxAppointmentService;
+import com.wang.aishenhuo.pc.api.service.XcxInfoService;
+import com.wang.aishenhuo.pc.api.service.XcxMsgSeeService;
 import com.wang.aishenhuo.pc.api.service.XcxMsgService;
 import com.wang.aishenhuo.pc.api.service.XcxPassengerService;
 import com.wang.aishenhuo.pc.api.service.XcxUserService;
+import com.wang.utiles.Constant;
+import com.wang.utiles.WXUtil;
 
 /**
- * 添加SK加解密方案
- * 放开微信接口代码注释
- * @author Administrator
+ * 预约
+ * 
+ * 
+ * @author 王江涛
  *
  */
 @RestController
 public class XcxAppointmentController {
 
 	@Autowired
-	public XcxAppointmentService xcxAppointmentService;
-
+	XcxAppointmentService xcxAppointmentService;
+	@Autowired
+	XcxAppointmentCountService xcxAppointmentCountService;
+	@Autowired
+	XcxAppointmentDetailService xcxAppointmenDetailService;
 	@Autowired
 	XcxUserService xcxUserService;
-
 	@Autowired
 	XcxMsgService xcxMsgService;
-	
+	@Autowired
+	XcxMsgSeeService xcxMsgSeeService;
 	@Autowired
 	XcxPassengerService xcxPassengerService;
+	@Autowired
+	XcxInfoService xcxInfoService;
+
+    @Value("${page.pageSize}")
+    int pageSize;
+    
+    Constant constant;
 	
-
-	@RequestMapping("/appointment/add")
-	public JSONObject add(XcxMsg xcxMsg,String sk, HttpServletRequest request) {
-
-		JSONObject j = new JSONObject();
-		
-		XcxMsg db = new XcxMsg();
-
-		XcxUser user = xcxUserService.getXcxUser(sk);
-		db.setUid(user.getId());
-		db.setTime((int) System.currentTimeMillis());
-
-//		$data['content'] = I('content','');
-//		$data['img'] = htmlspecialchars_decode(I('img',''));
-		
-		int i = xcxMsgService.insertSelective(db);
-		
-
-		if(i>0) {
-			j.put("status", 1);
-			j.put("msg", "发表成功");
-		} else {
-			j.put("status", 0);
-			j.put("msg", "发表失败");
-		}
-		return j;
-	}
-
 
 	@RequestMapping("/appointment/getAll")
-	public JSONObject getAll(XcxMsg xcxMsg,String sk, HttpServletRequest request) {
-
+	public JSONObject getAll(XcxMsg xcxMsg,String sk) {
 		JSONObject j = new JSONObject();
-
 		XcxUser user = xcxUserService.getXcxUser(sk);
-//		用户信息是否有意义，删除权限控制
-		xcxMsg.setUid(user.getId());
-		xcxMsg.setSee("0");
-		
-		List<XcxMsgSee> list = xcxMsgService.listXcxMsgByType(xcxMsg);
-
-
-		j.put("status", 1);
-		j.put("msg", "获取成功");
-		j.put("data", list);
-		
+		if(null!=user && !StringUtils.isEmpty(user.getId())){
+			xcxMsg.setUid(user.getId());
+			List<XcxMsgSee> list = xcxMsgSeeService.listXcxMsgByType(xcxMsg);
+			j.put("status", 1);
+			j.put("msg", "获取成功");
+			j.put("data", list);
+		} else {
+			j.put("status", 0);
+			j.put("msg", "获取失败");
+		}
 		return j;
 	}
 
 
+	/**
+	 * 获取消息提醒列表
+	 * 
+	 * 
+	 * 
+	 * @param xcxMsg
+	 * @param sk
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/appointment/get")
-	public JSONObject get(XcxMsg xcxMsg,String sk, HttpServletRequest request) {
-
+	public JSONObject get(XcxMsg xcxMsg,String sk) {
 		JSONObject j = new JSONObject();
-
 		XcxUser user = xcxUserService.getXcxUser(sk);
-		xcxMsg.setUid(user.getId());
-		
-		List<XcxMsg> list = xcxMsgService.selectByExample(xcxMsg);
-
-		xcxMsgService.update(list);
-		
-		
-		j.put("status", 1);
-		j.put("msg", "消息加载成功");
-		j.put("data", list);
-		
-		return j;
-	}
-
-	@RequestMapping("/appointment/mycount")
-	public JSONObject mycount(XcxMsg xcxMsg,String sk, HttpServletRequest request) {
-
-		JSONObject j = new JSONObject();
-
-		XcxUser user = xcxUserService.getXcxUser(sk);
-		xcxMsg.setUid(user.getId());
-		
-		List<XcxMsg> list = xcxMsgService.selectByExample(xcxMsg);
-
-		if(null!=list && list.size()>0){
+		if(null!=user && !StringUtils.isEmpty(user.getId())) {
+			xcxMsg.setUid(user.getId());
+			List<XcxMsg> list = xcxMsgService.selectByExample(xcxMsg);
 			xcxMsgService.update(list);
+			j.put("status", 1);
+			j.put("msg", "消息加载成功");
+			j.put("data", list);
 		} else {
-			list = new ArrayList<XcxMsg>();
+			j.put("status", 0);
+			j.put("msg", "消息加载失败");
 		}
-		
-		j.put("status", 1);
-		j.put("msg", "消息加载成功");
-		j.put("data", list);
-		
 		return j;
 	}
 
+	/**
+	 * 获取预约消息汇总
+	 * 
+	 * 
+	 * 
+	 * @param sk
+	 * @return
+	 */
+	@RequestMapping("/appointment/mycount")
+	public JSONObject mycount(String sk) {
+		JSONObject j = new JSONObject();
+		XcxUser user = xcxUserService.getXcxUser(sk);
+		if(null!=user && !StringUtils.isEmpty(user.getId())) {
+			XcxAppointmentCount recored = new XcxAppointmentCount();
+			recored.setUid(user.getId());
+			long data = 0;
+			List<XcxAppointmentCount> list = xcxAppointmentCountService.selectByExample(recored);
+			if(null!=list && list.size()>0){
+				data = list.get(0).getCount();
+			} else {
+				
+			}
+			j.put("status", 1);
+			j.put("msg", "获取成功");
+			j.put("data", data);
+		} else {
+			j.put("status", 0);
+			j.put("msg", "获取失败");
+		}
+		return j;
+	}
+
+	/**
+	 * 获取我的预约信息
+	 * 
+	 * 
+	 * 
+	 * @param xcxAppointment
+	 * @param sk
+	 * @return
+	 */
 	@RequestMapping("/appointment/my")
-	public JSONObject my(XcxAppointment xcxAppointment,String sk, HttpServletRequest request) {
-
+	public JSONObject my(XcxAppointment xcxAppointment,String sk) {
 		JSONObject j = new JSONObject();
-
 		XcxUser user = xcxUserService.getXcxUser(sk);
-		xcxAppointment.setUid(user.getId());
-		
-		List<XcxAppointment> info = xcxAppointmentService.selectByExample(xcxAppointment);
-
-		if(null!=info && info.size()>0){
+		if(null!=user && !StringUtils.isEmpty(user.getId())) {
+			xcxAppointment.setUid(user.getId());
+			List<XcxAppointment> info = xcxAppointmentService.selectByExample(xcxAppointment);
+			if(null!=info && info.size()>0){
+			} else {
+				info = new ArrayList<XcxAppointment>();
+			}
+			j.put("status", 1);
+			j.put("msg", "获取成功");
+			j.put("data", info);
 		} else {
-			info = new ArrayList<XcxAppointment>();
+			j.put("status", 0);
+			j.put("msg", "获取失败");
 		}
-		
-		j.put("status", 1);
-		j.put("msg", "获取成功");
-		j.put("data", info);
 		
 		return j;
 	}
 
+	/**
+	 * 获取约车人信息
+	 * 
+	 * 
+	 * 
+	 * @param xcxPassenger
+	 * @param page
+	 * @param sk
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/appointment/getPassenger")
-	public JSONObject getPassenger(XcxPassenger xcxPassenger,String sk, HttpServletRequest request) {
-
+	public JSONObject getPassenger(XcxPassenger xcxPassenger,int page, String sk) {
 		JSONObject j = new JSONObject();
-
 		XcxUser user = xcxUserService.getXcxUser(sk);
-		xcxPassenger.setUid(user.getId());
-//		appointment.status
-		List<XcxPassenger> info = xcxPassengerService.selectByExample(xcxPassenger);
-
-		if(null!=info && info.size()>0){
+		if(null!=user && !StringUtils.isEmpty(user.getId())) {
+			xcxPassenger.setUid(user.getId());
+//	        PageHelper.startPage(page,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
+			List<XcxPassenger> info = xcxPassengerService.selectByExample(xcxPassenger);
+			if(null!=info && info.size()>0){
+				j.put("status", 1);
+				j.put("msg", "获取成功");
+				j.put("data", info);
+			} else {
+				info = new ArrayList<XcxPassenger>();
+				j.put("status", 0);
+				j.put("msg", "获取失败");
+				j.put("data", info);
+			}
 		} else {
-			info = new ArrayList<XcxPassenger>();
+			j.put("status", 0);
+			j.put("msg", "获取失败");
 		}
-		
-		j.put("status", 1);
-		j.put("msg", "获取成功");
-		j.put("data", info);
-		
 		return j;
 	}
-
-//	public function getPassenger(){
-//		$u = D('User');
-//		$user = $u->getUserInfo(vaild_sk(I('sk')));
-//		$infoObj = D('Info');
-//		$info = $infoObj->field('info.id,info.phone,info.departure,info.destination,info.
-//	time,appointment.status')->table('__INFO__ info')->join('__APPOINTMENT__ appointment on info.id=appointment.iid',
-//			'RIGHT')->where('appointment.uid = "'.$user['id'].'"')->order('appointment.time desc')->select();
-//		$result['status'] = 1;
-//		$result['msg'] = '获取成功';
-//		$result['data'] = $info;
-//		exit(json_encode($result));	
-//	}
-
-//	public function my(){
-//		$u = D('User');
-//		$user = $u->getUserInfo(vaild_sk(I('sk')));
-//		$infoObj = D('Info');
-//		$info = $infoObj->field('info.id,appointment.*')->table('__INFO__ info')->join('__APPOINTMENT__ appointment on info.id=appointment.iid','RIGHT')->where('info.uid = "'.$user['id'].'"')->order('appointment.time desc')->select();
-//		$result['status'] = 1;
-//		$result['msg'] = '获取成功';
-//		$result['data'] = $info;
-//		exit(json_encode($result));
-//	}
 	
-	
+	/**
+	 * 预约请求处理
+	 * 
+	 * 
+	 * 
+	 * @param record
+	 * @param sk
+	 * @param form_id
+	 * @return
+	 */
+	@RequestMapping("/appointment/submit")
+	public JSONObject submit(XcxAppointment record,String sk,String form_id) {
+		JSONObject j = new JSONObject();
+		XcxUser user = xcxUserService.getXcxUser(sk);
+		record.setUid(user.getId());
+		XcxAppointment appointment = xcxAppointmentService.getXcxAppointment(record.getId());
+		
+		XcxInfo xcxInfo = xcxInfoService.getXcxInfo(appointment.getIid());
+		
+		if(ObjectUtils.isEmpty(xcxInfo)){
+			j.put("status", 0);
+			j.put("msg", "信息错误");
+		} else {
+			appointment.setStatus(record.getStatus());
+			xcxAppointmentService.updateByPrimaryKey(appointment);
+			
+//			XcxUser xcxUser = xcxUserService.getXcxUser(appointment.getUid());
 
-//	public function add(){
-//		$u = D('User');
-//		$user = $u->getUserInfo(vaild_sk(I('sk')));
-//		$data['uid'] = $user['id'];
-//		$data['iid'] = I('iid','');
-//		$data['name'] = I('name','');
-//		$data['phone'] = I('phone','');
-//		$data['surplus'] = I('surplus','');
-//		$data['time'] = time();
-//		
-//		$rules = array(
-//			array('name','require','请输入姓名'),
-//			array('phone','require','请输入手机号码'),
-//			array('phone','/^1[34578]\d{9}$/','手机号码格式错误'),
-//			array('surplus','require','请选择人数')
-//	   );
-//	   
-//	   $where['uid'] = $data['uid'];
-//	   $where['iid'] = $data['iid'];
-//	   $info = M('appointment')->where($where)->find();
-//	   if(!empty($info)){
-//			$result['status'] = 0;
-//			$result['msg'] = '请不要重复预约';
-//			exit(json_encode($result));
-//	   }
-//	   
-//		if($id = M('appointment')->validate($rules)->add($data)){
-//			$infoObj = D('Info');
-//			$info = $infoObj->field('info.*,user.openId')->table('__INFO__ info,__USER__ user')->where('info.uid=user.id and info.id = "'.$data['iid'].'"')->find();
-//			
-//			$postData['touser'] = $info['openId'];
-//			$postData['template_id'] = 'l5gcjhy3C_Tu-mjhoCNHOrbW4P7xlRw72dzu3iZ5tVw';
-//			$postData['page'] = '/pages/appointment/index?id='.$id;
-//			$postData['form_id'] = i('form_id');
-//			$postData['data']['keyword1']['value'] = $data['name'];
-//			$postData['data']['keyword2']['value'] = $data['phone'];
-//			$postData['data']['keyword3']['value'] = $info['destination'];
-//			$postData['data']['keyword4']['value'] = $info['departure'];
-//			$postData['data']['keyword5']['value'] = date('Y-m-d H:i',$info['time']);
-//			sendMessage($postData);
-//			msg('notice',$info['uid'],'10000',$data['name'].'预约了您发布的拼车信息,请及时处理',$postData['page']);
-//			$result['status'] = 1;
-//			$result['msg'] = '预约成功';
-//			
-//		}else{
-//			$result['status'] = 0;
-//			$result['msg'] = '预约失败';
-//		}
-//		exit(json_encode($result));
-//			
-//	}
-//	
-//	
-//	public function mycount(){
-//		$u = D('User');
-//		$user = $u->getUserInfo(vaild_sk(I('sk')));
-//		$infoObj = D('Info');
-//		$info = $infoObj->table('__INFO__ info')->join('__APPOINTMENT__ appointment on info.id=appointment.iid','RIGHT')->where('info.uid = "'.$user['id'].'" and appointment.status = 0')->count();
-//		$result['status'] = 1;
-//		$result['msg'] = '获取成功';
-//		$result['data'] = $info;
-//		exit(json_encode($result));
-//	}
-//	
-//	public function getPassenger(){
-//		$u = D('User');
-//		$user = $u->getUserInfo(vaild_sk(I('sk')));
-//		$infoObj = D('Info');
-//		$info = $infoObj->field('info.id,info.phone,info.departure,info.destination,info.time,appointment.status')->table('__INFO__ info')->join('__APPOINTMENT__ appointment on info.id=appointment.iid','RIGHT')->where('appointment.uid = "'.$user['id'].'"')->order('appointment.time desc')->select();
-//		$result['status'] = 1;
-//		$result['msg'] = '获取成功';
-//		$result['data'] = $info;
-//		exit(json_encode($result));	
-//	}
-//
-//		
-//	public function detail(){
-//		$u = D('User');
-//		$user = $u->getUserInfo(vaild_sk(I('sk')));
-//		$infoObj = D('Info');
-//		$info = $infoObj->field('info.id,info.departure,info.destination,info.time,appointment.*')->table('__INFO__ info')->join('__APPOINTMENT__ appointment on info.id=appointment.iid','RIGHT')->where('appointment.id = "'.I('id').'" and info.uid = "'.$user['id'].'"')->find();
-//		$result['status'] = 1;
-//		$result['msg'] = '获取成功';
-//		$result['data'] = $info;
-//		exit(json_encode($result));
-//	}
-//	
-//	public function submit(){
-//		$u = D('User');
-//		$user = $u->getUserInfo(vaild_sk(I('sk')));
-//		$infoObj = D('Info');
-//		$app['status'] = I('type');
-//		$info = $infoObj->field('info.*,appointment.uid as aid')->table('__INFO__ info')->join('__APPOINTMENT__ appointment on info.id=appointment.iid','RIGHT')->where('appointment.id = "'.I('id').'" and info.uid = "'.$user['id'].'"')->find();
-//		if(empty($info)){
-//			$result['status'] = 0;
-//			$result['msg'] = '信息错误';
-//		}else{
-//			$where['id'] = I('id');
-//			
+			String url = "/pages/info/index?id="+xcxInfo.getId();
+			String content = "";
+			if(1==record.getStatus()){
+				content = "同意了您的拼车请求,请及时与车主(" + xcxInfo.getPhone() + ")取得联系";
+			} else {
+				content = "拒绝了您的拼车请求,原因是拼车人数已满,建议选择其他时间拼车";
+			}
+			
+			addMsg(user, appointment, xcxInfo, url, content);
+//			VQ__f7ZjHSWuRAFIELYSNO4BV2F2ohUuOOAK21Xb2vg	预约成功通知
+//			-NjzozcjANxJKskb1Nxp8C-no3NFa62gOiWOf08soQw	拒绝
+
 //			if(M('appointment')->where($where)->save($app)){
 //				$user = M('User')->find($info['aid']);
 //				$postData['touser'] = $user['openId'];
@@ -324,18 +270,163 @@ public class XcxAppointmentController {
 //					$content = $info['name'].'拒绝了您的拼车请求,原因是拼车人数已满,建议选择其他时间拼车';
 //				}
 //				sendMessage($postData);	
-//				msg('notice',$info['aid'],'10000',$content,$postData['page']);		
-//				
-//				$result['status'] = 1;
-//				$result['msg'] = '操作成功';
-//			}else{			
-//				$result['status'] = 0;
-//				$result['msg'] = '操作失败';
-//			}
-//		}
-//		
-//		exit(json_encode($result));
-//		
-//	}
+			
+			j.put("status", 1);
+			j.put("msg", "获取成功");
+		}
+		return j;
+	}
+
+	
+	/**
+	 * 预约详情获取
+	 * 
+	 * 
+	 * 
+	 * @param record
+	 * @param sk
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/appointment/detail")
+	public JSONObject detail(XcxAppointmentDetail record,String sk) {
+		JSONObject j = new JSONObject();
+		XcxUser user = xcxUserService.getXcxUser(sk);
+		record.setUid(user.getId());
+		List<XcxAppointmentDetail> list = xcxAppointmenDetailService.selectByExample(record);
+		if(null!=list && list.size()>0) {
+			j.put("status", 1);
+			j.put("msg", "获取成功");
+			j.put("data", list.get(0));
+		} else {
+			j.put("status", 0);
+			j.put("msg", "获取失败");
+		}
+		return j;
+	}
+
+	/**
+	 * 预约
+	 * 
+	 * 
+	 * 
+	 * @param xcxAppointment
+	 * @param sk
+	 * @param form_id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/appointment/add")
+	public JSONObject add(XcxAppointment xcxAppointment,String sk,String form_id) {
+		JSONObject j = new JSONObject();
+
+		XcxUser user = xcxUserService.getXcxUser(sk);
+		if(null==user || StringUtils.isEmpty(user.getId())) {
+			j.put("status", 0);
+			j.put("msg", "预约失败");
+		} else {
+			xcxAppointment.setUid(user.getId());
+			xcxAppointment.setTime((int) System.currentTimeMillis());
+			List<XcxAppointment> info = xcxAppointmentService.selectByExample(xcxAppointment);
+
+			if(null!=info && info.size()>10) {
+				j.put("status", 0);
+				j.put("msg", "请不要重复预约");
+			} else {
+//					array('phone','/^1[34578]\d{9}$/','手机号码格式错误'),
+				if(StringUtils.isEmpty(xcxAppointment.getName())||
+						StringUtils.isEmpty(xcxAppointment.getPhone())||
+						ObjectUtils.isEmpty(xcxAppointment.getSurplus())) {
+					j.put("status", 0);
+					j.put("msg", "预约失败");
+				} else {
+
+					xcxAppointment.setId(UUID.randomUUID().toString());
+					xcxAppointmentService.insertSelective(xcxAppointment);
+					
+					XcxInfo xcxInfo = xcxInfoService.getXcxInfo(xcxAppointment.getIid());
+
+					sendWXMsg(xcxAppointment, form_id, xcxInfo);
+
+					addMsg(xcxAppointment, user, xcxInfo);
+
+					j.put("status", 1);
+					j.put("msg", "预约成功");
+				}
+			}
+		}
+		return j;
+	}
+
+	/**
+	 * 发起预约信息提醒，微信端
+	 * 
+	 * 
+	 * 
+	 * @param xcxAppointment
+	 * @param form_id
+	 * @param xcxInfo
+	 */
+	private void sendWXMsg(XcxAppointment xcxAppointment, String form_id, XcxInfo xcxInfo) {
+		XcxUser touser = xcxUserService.getXcxUser(xcxInfo.getUid());
+
+		JSONObject message = new JSONObject();
+		JSONObject data = new JSONObject();
+		message.put("touser", touser.getOpenid());
+		message.put("template_id", "gf5Oe4d84pGu67IzL13T6abROq4vD9_wInYvKZfHzEc");
+		message.put("form_id", form_id);
+		message.put("page", "/pages/appointment/index?id=" + xcxAppointment.getIid());
+
+		data.put("keyword1", xcxInfo.getDate() + " " + xcxInfo.getTime());
+		data.put("keyword2", xcxAppointment.getName());
+		data.put("keyword3", xcxAppointment.getPhone());
+		data.put("keyword4", xcxInfo.getDestination());
+		data.put("keyword5", xcxInfo.getDeparture());
+		data.put("keyword6", xcxInfo.getPrice());
+		
+		message.put("data", data);
+		
+		WXUtil.sendMessage(constant, message, WXUtil.getToken(constant));
+	}
+
+	/**
+	 * 发送预约提醒，内部
+	 * 
+	 * 
+	 * 
+	 * @param xcxAppointment
+	 * @param user
+	 * @param xcxInfo
+	 */
+	private void addMsg(XcxAppointment xcxAppointment, XcxUser user, XcxInfo xcxInfo) {
+		XcxMsg xcxMsg = new XcxMsg();
+		xcxMsg.setContent(xcxAppointment.getName() + "预约了您发布的拼车信息,请及时处理 ");
+		xcxMsg.setAvatarurl(user.getAvatarurl());
+		xcxMsg.setNickname(user.getNickname());
+		xcxMsg.setType("notice");
+		xcxMsg.setUrl("/pages/appointment/index?id=" + xcxAppointment.getIid());
+		xcxMsg.setTime((int) System.currentTimeMillis());
+//					两个字段需要区别对待
+		xcxMsg.setUid("10000");
+		xcxMsg.setFid(xcxInfo.getUid());
+		xcxMsgService.insertSelective(xcxMsg);
+	}
+
+
+	private void addMsg(XcxUser user, XcxAppointment appointment, XcxInfo xcxInfo, String url, String content) {
+		XcxMsg xcxMsg = new XcxMsg();
+		xcxMsg.setContent(content);
+		xcxMsg.setAvatarurl(user.getAvatarurl());
+		xcxMsg.setNickname(user.getNickname());
+		xcxMsg.setType("notice");
+		xcxMsg.setUrl(url);
+		xcxMsg.setTime((int) System.currentTimeMillis());
+		
+//			两个字段需要区别对待
+		xcxMsg.setUid(xcxInfo.getUid());
+		xcxMsg.setFid(appointment.getId());
+		
+		xcxMsgService.insertSelective(xcxMsg);
+	}
 
 }

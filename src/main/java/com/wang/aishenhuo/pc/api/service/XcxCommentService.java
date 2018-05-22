@@ -2,7 +2,9 @@ package com.wang.aishenhuo.pc.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -19,52 +21,47 @@ public class XcxCommentService {
 	@Autowired
 	private XcxCommentMapper xcxCommentMapper;
 
+//	public List<XcxComment> listXcxComment(XcxComment xcxComment) {
+//		return xcxCommentMapper.selectByExample(new XcxCommentExample());
+//	}
 	
-	public List<XcxComment> listXcxComment(XcxComment xcxComment) {
-		return xcxCommentMapper.selectByExample(new XcxCommentExample());
-	}
-	
-	public XcxComment getXcxComment(Integer id) {
+	public XcxCommentWithBLOBs getXcxComment(String id) {
 		return xcxCommentMapper.selectByPrimaryKey(id);
 	}
 
-	public List<XcxComment> selectByExample(XcxComment record) {
-		List<XcxComment> list = new ArrayList<XcxComment>();
-		XcxCommentExample e = new XcxCommentExample();
-		Criteria c = e.createCriteria();
-		if(!ObjectUtils.isEmpty(record)) {
+	public List<XcxCommentWithBLOBs> selectByExample(XcxComment record) {
+		List<XcxCommentWithBLOBs> list = new ArrayList<XcxCommentWithBLOBs>();
+		if(!ObjectUtils.isEmpty(record)&&!StringUtils.isEmpty(record.getIid())) {
+			XcxCommentExample e = new XcxCommentExample();
+			Criteria c = e.createCriteria();
 			c.andIidEqualTo(record.getIid());
-			list = xcxCommentMapper.selectByExample(e);
+			list = xcxCommentMapper.selectByExampleWithBLOBs(e);
 		}
 		return list;
 	}
 
-
-	public int insertSelective(XcxComment xcxComment) {
-		XcxCommentWithBLOBs record = new XcxCommentWithBLOBs();
-		return xcxCommentMapper.insertSelective(record);
+	public int insertSelective(XcxCommentWithBLOBs xcxComment) {
+		xcxComment.setId(UUID.randomUUID().toString());
+		return xcxCommentMapper.insertSelective(xcxComment);
 	}
 
 	public int deleteByPrimaryKey(XcxComment xcxComment) {
 		return xcxCommentMapper.deleteByPrimaryKey(xcxComment.getId());
 	}
 
-
-	private List<Integer> getIds(List<XcxComment> list) {
-		List<Integer> l = new ArrayList();
-		for(int i=0;i<list.size();i++){
-			l.add(list.get(i).getId());
-		}
-		return l;
-	}
-
 	public int count(XcxComment xcxComment) {
-		XcxCommentExample e = new XcxCommentExample();
-		Criteria c = e.createCriteria();
-		c.andIidEqualTo(xcxComment.getIid());
-		c.andTypeEqualTo(xcxComment.getType());
-		return xcxCommentMapper.countByExample(e);
+		if(!ObjectUtils.isEmpty(xcxComment)&&!StringUtils.isEmpty(xcxComment.getIid())&&!StringUtils.isEmpty(xcxComment.getType())) {
+			XcxCommentExample e = new XcxCommentExample();
+			Criteria c = e.createCriteria();
+			c.andIidEqualTo(xcxComment.getIid());
+			c.andTypeEqualTo(xcxComment.getType());
+			return xcxCommentMapper.countByExample(e);
+		} else {
+			return 0;
+		}
 	}
-	
 
+	public int updateByPrimaryKey(XcxComment record) {
+		return xcxCommentMapper.updateByPrimaryKey(record);
+	}
 }

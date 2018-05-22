@@ -29,3 +29,12 @@ server:
   tomcat.max-threads: 100
   tomcat.uri-encoding: UTF-8  
 redis-expire: 1800
+page: 
+  pageSize: 5
+constant: 
+  wx: 
+    appid: wxa4a76bcefc655c8f
+    secret: d5da2b0cba4777b55f5aa973f09cb00b
+    jscode2session: https://api.weixin.qq.com/sns/jscode2session?
+    token: https://api.weixin.qq.com/cgi-bin/token?
+    send: https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?

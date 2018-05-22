@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wang.aishenhuo.pc.api.myBatis.mapper.XcxNoticeMapper">
   <resultMap id="BaseResultMap" type="com.wang.aishenhuo.pc.api.myBatis.model.XcxNotice">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
@@ -103,17 +103,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from xcx_notice
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from xcx_notice
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxNoticeExample">
     delete from xcx_notice
@@ -124,7 +124,7 @@
   <insert id="insert" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxNotice">
     insert into xcx_notice (id, title, status, 
       content)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
       #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxNotice">
@@ -145,7 +145,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -168,7 +168,7 @@
     update xcx_notice
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
@@ -186,7 +186,7 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update xcx_notice
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       content = #{record.content,jdbcType=LONGVARCHAR}
@@ -196,7 +196,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update xcx_notice
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
@@ -216,19 +216,19 @@
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxNotice">
     update xcx_notice
     set title = #{title,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       content = #{content,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxNotice">
     update xcx_notice
     set title = #{title,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

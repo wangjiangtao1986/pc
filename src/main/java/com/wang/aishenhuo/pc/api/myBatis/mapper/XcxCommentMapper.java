@@ -11,7 +11,7 @@ public interface XcxCommentMapper {
 
     int deleteByExample(XcxCommentExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(XcxCommentWithBLOBs record);
 
@@ -21,7 +21,7 @@ public interface XcxCommentMapper {
 
     List<XcxComment> selectByExample(XcxCommentExample example);
 
-    XcxCommentWithBLOBs selectByPrimaryKey(Integer id);
+    XcxCommentWithBLOBs selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") XcxCommentWithBLOBs record, @Param("example") XcxCommentExample example);
 

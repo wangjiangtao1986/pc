@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wang.aishenhuo.pc.api.myBatis.mapper.XcxMsgMapper">
   <resultMap id="BaseResultMap" type="com.wang.aishenhuo.pc.api.myBatis.model.XcxMsg">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
     <result column="time" jdbcType="INTEGER" property="time" />
     <result column="see" jdbcType="VARCHAR" property="see" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="fid" jdbcType="INTEGER" property="fid" />
+    <result column="fid" jdbcType="VARCHAR" property="fid" />
     <result column="avatarUrl" jdbcType="VARCHAR" property="avatarurl" />
     <result column="nickName" jdbcType="VARCHAR" property="nickname" />
   </resultMap>
@@ -109,17 +109,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from xcx_msg
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from xcx_msg
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxMsgExample">
     delete from xcx_msg
@@ -132,8 +132,8 @@
       see, type, url, fid, 
       avatarUrl, nickName, content
       )
-    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{time,jdbcType=INTEGER}, 
-      #{see,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{fid,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{time,jdbcType=INTEGER}, 
+      #{see,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{fid,jdbcType=VARCHAR}, 
       #{avatarurl,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -173,10 +173,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
+        #{uid,jdbcType=VARCHAR},
       </if>
       <if test="time != null">
         #{time,jdbcType=INTEGER},
@@ -191,7 +191,7 @@
         #{url,jdbcType=VARCHAR},
       </if>
       <if test="fid != null">
-        #{fid,jdbcType=INTEGER},
+        #{fid,jdbcType=VARCHAR},
       </if>
       <if test="avatarurl != null">
         #{avatarurl,jdbcType=VARCHAR},
@@ -214,10 +214,10 @@
     update xcx_msg
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=INTEGER},
+        uid = #{record.uid,jdbcType=VARCHAR},
       </if>
       <if test="record.time != null">
         time = #{record.time,jdbcType=INTEGER},
@@ -232,7 +232,7 @@
         url = #{record.url,jdbcType=VARCHAR},
       </if>
       <if test="record.fid != null">
-        fid = #{record.fid,jdbcType=INTEGER},
+        fid = #{record.fid,jdbcType=VARCHAR},
       </if>
       <if test="record.avatarurl != null">
         avatarUrl = #{record.avatarurl,jdbcType=VARCHAR},
@@ -250,13 +250,13 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update xcx_msg
-    set id = #{record.id,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=VARCHAR},
       time = #{record.time,jdbcType=INTEGER},
       see = #{record.see,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
-      fid = #{record.fid,jdbcType=INTEGER},
+      fid = #{record.fid,jdbcType=VARCHAR},
       avatarUrl = #{record.avatarurl,jdbcType=VARCHAR},
       nickName = #{record.nickname,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=LONGVARCHAR}
@@ -266,13 +266,13 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update xcx_msg
-    set id = #{record.id,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=VARCHAR},
       time = #{record.time,jdbcType=INTEGER},
       see = #{record.see,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
-      fid = #{record.fid,jdbcType=INTEGER},
+      fid = #{record.fid,jdbcType=VARCHAR},
       avatarUrl = #{record.avatarurl,jdbcType=VARCHAR},
       nickName = #{record.nickname,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -283,7 +283,7 @@
     update xcx_msg
     <set>
       <if test="uid != null">
-        uid = #{uid,jdbcType=INTEGER},
+        uid = #{uid,jdbcType=VARCHAR},
       </if>
       <if test="time != null">
         time = #{time,jdbcType=INTEGER},
@@ -298,7 +298,7 @@
         url = #{url,jdbcType=VARCHAR},
       </if>
       <if test="fid != null">
-        fid = #{fid,jdbcType=INTEGER},
+        fid = #{fid,jdbcType=VARCHAR},
       </if>
       <if test="avatarurl != null">
         avatarUrl = #{avatarurl,jdbcType=VARCHAR},
@@ -310,31 +310,31 @@
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxMsg">
     update xcx_msg
-    set uid = #{uid,jdbcType=INTEGER},
+    set uid = #{uid,jdbcType=VARCHAR},
       time = #{time,jdbcType=INTEGER},
       see = #{see,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
-      fid = #{fid,jdbcType=INTEGER},
+      fid = #{fid,jdbcType=VARCHAR},
       avatarUrl = #{avatarurl,jdbcType=VARCHAR},
       nickName = #{nickname,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxMsg">
     update xcx_msg
-    set uid = #{uid,jdbcType=INTEGER},
+    set uid = #{uid,jdbcType=VARCHAR},
       time = #{time,jdbcType=INTEGER},
       see = #{see,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
-      fid = #{fid,jdbcType=INTEGER},
+      fid = #{fid,jdbcType=VARCHAR},
       avatarUrl = #{avatarurl,jdbcType=VARCHAR},
       nickName = #{nickname,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -13,7 +13,7 @@
     <result column="surplus" jdbcType="TINYINT" property="surplus" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="vehicle" jdbcType="VARCHAR" property="vehicle" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="see" jdbcType="INTEGER" property="see" />
     <result column="price" jdbcType="DECIMAL" property="price" />
@@ -147,7 +147,7 @@
     values (#{id,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, 
       #{departure,jdbcType=VARCHAR}, #{destination,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
       #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{surplus,jdbcType=TINYINT}, 
-      #{type,jdbcType=TINYINT}, #{vehicle,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, 
+      #{type,jdbcType=TINYINT}, #{vehicle,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{see,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
       #{addtime,jdbcType=INTEGER}, #{avatarurl,jdbcType=VARCHAR}, #{remark,jdbcType=LONGVARCHAR}
       )
@@ -245,7 +245,7 @@
         #{vehicle,jdbcType=VARCHAR},
       </if>
       <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
+        #{uid,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -310,7 +310,7 @@
         vehicle = #{record.vehicle,jdbcType=VARCHAR},
       </if>
       <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=INTEGER},
+        uid = #{record.uid,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
@@ -348,7 +348,7 @@
       surplus = #{record.surplus,jdbcType=TINYINT},
       type = #{record.type,jdbcType=TINYINT},
       vehicle = #{record.vehicle,jdbcType=VARCHAR},
-      uid = #{record.uid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       see = #{record.see,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DECIMAL},
@@ -372,7 +372,7 @@
       surplus = #{record.surplus,jdbcType=TINYINT},
       type = #{record.type,jdbcType=TINYINT},
       vehicle = #{record.vehicle,jdbcType=VARCHAR},
-      uid = #{record.uid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       see = #{record.see,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DECIMAL},
@@ -416,7 +416,7 @@
         vehicle = #{vehicle,jdbcType=VARCHAR},
       </if>
       <if test="uid != null">
-        uid = #{uid,jdbcType=INTEGER},
+        uid = #{uid,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -451,7 +451,7 @@
       surplus = #{surplus,jdbcType=TINYINT},
       type = #{type,jdbcType=TINYINT},
       vehicle = #{vehicle,jdbcType=VARCHAR},
-      uid = #{uid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       see = #{see,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
@@ -472,7 +472,7 @@
       surplus = #{surplus,jdbcType=TINYINT},
       type = #{type,jdbcType=TINYINT},
       vehicle = #{vehicle,jdbcType=VARCHAR},
-      uid = #{uid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       see = #{see,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},

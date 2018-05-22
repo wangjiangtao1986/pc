@@ -24,7 +24,7 @@ public class XcxDynamicService {
 		return xcxDynamicMapper.selectByExample(new XcxDynamicExample());
 	}
 	
-	public XcxDynamic getXcxDynamic(Integer id) {
+	public XcxDynamic getXcxDynamic(String id) {
 		return xcxDynamicMapper.selectByPrimaryKey(id);
 	}
 
@@ -38,6 +38,18 @@ public class XcxDynamicService {
 		}
 		return list;
 	}
+
+	public List<XcxDynamicWithBLOBs> selectByExampleWithBLOBs(XcxDynamic record) {
+		List<XcxDynamicWithBLOBs> list = new ArrayList<XcxDynamicWithBLOBs>();
+		XcxDynamicExample e = new XcxDynamicExample();
+		Criteria c = e.createCriteria();
+		c.andUidEqualTo(record.getUid());
+		if(!ObjectUtils.isEmpty(record)) {
+			list = xcxDynamicMapper.selectByExampleWithBLOBs(e);
+		}
+		return list;
+	}
+
 
 
 	public int insertSelective(XcxDynamicWithBLOBs xcxDynamic) {

@@ -4,48 +4,48 @@ package com.wang.aishenhuo.pc.api.myBatis.model;
  * 
  * xcx_appointment_count
  *
- * @mbggenerated 2018-05-17 09:51:53
+ * @mbggenerated 2018-05-21 09:36:55
  */
 public class XcxAppointmentCount {
     /**
      *
      * xcx_appointment_count.uid
      *
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    private Integer uid;
+    private String uid;
 
     /**
      *
      * xcx_appointment_count.count
      *
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
     private Long count;
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    public Integer getUid() {
+    public String getUid() {
         return uid;
     }
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    public void setUid(Integer uid) {
-        this.uid = uid;
+    public void setUid(String uid) {
+        this.uid = uid == null ? null : uid.trim();
     }
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
     public Long getCount() {
         return count;
     }
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
     public void setCount(Long count) {
         this.count = count;

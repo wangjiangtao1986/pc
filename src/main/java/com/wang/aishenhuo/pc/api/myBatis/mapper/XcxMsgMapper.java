@@ -10,7 +10,7 @@ public interface XcxMsgMapper {
 
     int deleteByExample(XcxMsgExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(XcxMsg record);
 
@@ -20,7 +20,7 @@ public interface XcxMsgMapper {
 
     List<XcxMsg> selectByExample(XcxMsgExample example);
 
-    XcxMsg selectByPrimaryKey(Integer id);
+    XcxMsg selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") XcxMsg record, @Param("example") XcxMsgExample example);
 

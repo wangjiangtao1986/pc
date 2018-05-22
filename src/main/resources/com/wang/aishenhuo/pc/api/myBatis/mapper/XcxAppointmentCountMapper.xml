@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wang.aishenhuo.pc.api.myBatis.mapper.XcxAppointmentCountMapper">
   <resultMap id="BaseResultMap" type="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentCount">
-    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
     <result column="count" jdbcType="BIGINT" property="count" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -88,7 +88,7 @@
   </delete>
   <insert id="insert" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentCount">
     insert into xcx_appointment_count (uid, count)
-    values (#{uid,jdbcType=INTEGER}, #{count,jdbcType=BIGINT})
+    values (#{uid,jdbcType=VARCHAR}, #{count,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentCount">
     insert into xcx_appointment_count
@@ -102,7 +102,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
+        #{uid,jdbcType=VARCHAR},
       </if>
       <if test="count != null">
         #{count,jdbcType=BIGINT},
@@ -119,7 +119,7 @@
     update xcx_appointment_count
     <set>
       <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=INTEGER},
+        uid = #{record.uid,jdbcType=VARCHAR},
       </if>
       <if test="record.count != null">
         count = #{record.count,jdbcType=BIGINT},
@@ -131,7 +131,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update xcx_appointment_count
-    set uid = #{record.uid,jdbcType=INTEGER},
+    set uid = #{record.uid,jdbcType=VARCHAR},
       count = #{record.count,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />

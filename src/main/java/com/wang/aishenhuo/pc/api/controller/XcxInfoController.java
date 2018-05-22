@@ -6,103 +6,118 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxInfo;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxUser;
 import com.wang.aishenhuo.pc.api.service.XcxInfoService;
 import com.wang.aishenhuo.pc.api.service.XcxUserService;
 
 /**
- * 添加用户默认头像 添加翻页查询组件
+ * 拼车信息
  * 
- * @author Administrator
+ * @author 王江涛
  *
  */
 @RestController
 public class XcxInfoController {
 
 	@Autowired
-	public XcxInfoService xcxInfoService;
-
+	XcxInfoService xcxInfoService;
 	@Autowired
 	XcxUserService xcxUserService;
 
+    @Value("${page.pageSize}")
+    int pageSize;
+    
+    /**
+     * 首页，根据客户要求，检索拼车信息 
+     * 	
+     * 	有待商议后续实现
+     * 
+     * @param start
+     * @param over
+     * @param date
+     * @param page
+     * @param request
+     * @return
+     */
 	@RequestMapping("/info/lists")
-	public JSONObject lists(String start, String over, String date, String page, HttpServletRequest request) {
-		// 日期、起点、终点
-		// 用户表关联信息表头像
-		// 翻页
-
+	public JSONObject lists(String start, String over, String date, int page) {
 		JSONObject j = new JSONObject();
-
+		XcxInfo xcxInfo = new XcxInfo();
+		xcxInfo.setDate(date);
+		xcxInfo.setDeparture(start);
+		xcxInfo.setDestination(over);
+        PageHelper.startPage(page,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
+        List<XcxInfo> list = xcxInfoService.selectByExample(xcxInfo);
 		j.put("status", 1);
 		j.put("msg", "获取成功");
-		j.put("list", xcxInfoService.listXcxInfo());
-
+		j.put("list", list);
 		return j;
 	}
 
+	/**
+	 * 添加拼车信息
+	 * 
+	 * @param xcxInfo
+	 * @param sk
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/info/add")
-	public JSONObject add(XcxInfo xcxInfo, String sk, HttpServletRequest request) {
-
+	public JSONObject add(XcxInfo xcxInfo, String sk) {
 		JSONObject j = new JSONObject();
-
-		// JSONObject skj = JSONObject.parseObject(sk);
-		// XcxUser user = xcxUserService.getXcxUser(skj.getString("openid"));
-
 		XcxUser user = xcxUserService.getXcxUser(sk);
 		xcxInfo.setUid(user.getId());
 		xcxInfo.setAddtime((int) System.currentTimeMillis());
 		xcxInfo.setId(UUID.randomUUID().toString());
 		xcxInfo.setAvatarurl(user.getAvatarurl());
 		int i = xcxInfoService.insertSelective(xcxInfo);
-
 		if (i > 0) {
-
 			j.put("status", 1);
 			j.put("msg", "发布成功");
 			j.put("info", xcxInfo.getId());
-
 			if (StringUtils.isEmpty(user.getPhone())) {
 				user.setPhone(xcxInfo.getPhone());
 			}
-
 			if (StringUtils.isEmpty(user.getVehicle())) {
 				user.setVehicle(xcxInfo.getVehicle());
 			}
-
 			if (StringUtils.isEmpty(user.getName())) {
 				user.setName(xcxInfo.getName());
 			}
-
 			xcxUserService.updateByPrimaryKey(user);
-
 		} else {
 			j.put("status", 0);
 			j.put("msg", "发布失败");
 		}
-
 		return j;
 	}
 
+	/**
+	 * 获取拼车信息详情
+	 * 
+	 * 根据信息ID
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/info/index")
 	public JSONObject index(String id, HttpServletRequest request) {
-
 		JSONObject j = new JSONObject();
-
 		XcxInfo xcxInfo = xcxInfoService.getXcxInfo(id);
-
 		if (ObjectUtils.isEmpty(xcxInfo)) {
-
 			j.put("status", 0);
 			j.put("msg", "没有找到该信息");
 		} else {
-
 			j.put("status", 1);
 			j.put("msg", "获取成功");
 			j.put("data", xcxInfo);
@@ -110,152 +125,89 @@ public class XcxInfoController {
 		return j;
 	}
 
+	/**
+	 * 获取拼车信息汇总
+	 * 
+	 * 
+	 * @param sk
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/info/mycount")
 	public JSONObject mycount(String sk, HttpServletRequest request) {
-
 		JSONObject j = new JSONObject();
-
 		XcxUser user = xcxUserService.getXcxUser(sk);
-		XcxInfo xcxInfo = new XcxInfo();
-		xcxInfo.setUid(user.getId());
-
-		int data = xcxInfoService.count(xcxInfo);
-
-		j.put("status", 1);
-		j.put("msg", "获取成功");
-		j.put("data", data);
-
+		if(null!=user && !StringUtils.isEmpty(user.getId())) {
+			XcxInfo xcxInfo = new XcxInfo();
+			xcxInfo.setUid(user.getId());
+			int data = xcxInfoService.count(xcxInfo);
+			j.put("status", 1);
+			j.put("msg", "获取成功");
+			j.put("data", data);
+		} else {
+			j.put("status", 0);
+			j.put("msg", "获取失败");
+		}
 		return j;
 	}
 
+	/**
+	 * 我发布的拼车信息 列表
+	 * 
+	 * 	
+	 * 
+	 * @param sk
+	 * @param page
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/info/mylist")
-	public JSONObject mylist(String sk, HttpServletRequest request) {
-
+	public JSONObject mylist(String sk,int page) {
 		JSONObject j = new JSONObject();
-
 		XcxUser user = xcxUserService.getXcxUser(sk);
-		XcxInfo xcxInfo = new XcxInfo();
-		xcxInfo.setUid(user.getId());
-
-		List<XcxInfo> data = xcxInfoService.selectByExample(xcxInfo);
-
-		j.put("status", 1);
-		j.put("msg", "获取成功");
-		j.put("data", data);
-
+		if(null!=user && !StringUtils.isEmpty(user.getId())) {
+			XcxInfo xcxInfo = new XcxInfo();
+			xcxInfo.setUid(user.getId());
+	        PageHelper.startPage(page,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
+			List<XcxInfo> data = xcxInfoService.selectByExample(xcxInfo);
+			j.put("status", 1);
+			j.put("msg", "获取成功");
+			j.put("data", data);
+		} else {
+			j.put("status", 0);
+			j.put("msg", "获取失败");
+		}
 		return j;
 	}
-
-
-	// 添加拼车信息
-	// public function add(){
-	// $u = D('User');
-	// $user = $u->getUserInfo(vaild_sk(I('sk')));
-	// $data = $_POST;
-	// $data['uid'] = $user['id'];
-	// $i = D('Info');
-	// if (!($id=($i->addInfo($data)))){
-	// $result['status'] = 0;
-	// $result['msg'] = $i->getError();
-	// }else{
-	// $result['status'] = 1;
-	// $result['msg'] = '发布成功';
-	// $result['info'] = $id;
-	//
-	// if($user['vehicle'] == ''){
-	// $u->vehicle = $data['vehicle'];
-	// }
-	// if($user['phone'] == ''){
-	// $u->phone = $data['phone'];
-	// }
-	// if($user['name'] == ''){
-	// $u->name = $data['name'];
-	// }
-	// $u->save();
-	// }
-	// exit(json_encode($result));
-	// }
-	//
-	// public function index(){
-	// $i = D('Info');
-	// $data = $i->getInfo(I('id'));
-	// //dump($i->getLastSql());
-	// if(empty($data)){
-	// $result['status'] = 0;
-	// $result['msg'] = '没有找到该信息';
-	// }else{
-	// $result['status'] = 1;
-	// $result['msg'] = '获取成功';
-	// $result['data'] = $data;
-	// }
-	// exit(json_encode($result));
-	// }
-	//
-	//
-	// public function lists(){
-	// $i = D('Info');
-	// $start = I('start','');
-	// $over = I('over','');
-	// $date = I('date','');
-	// $where = 'info.status = 1 and info.time >= "'.time().'"';
-	//
-	// if($date != ''){
-	// $where .= ' and info.date <= "'.$date.'"';
-	// }
-	//
-	// if($start != ''){
-	// $where .= ' and info.departure like "%'.$start.'%"';
-	// }
-	//
-	// if($over != ''){
-	// $where .= ' and info.destination like "%'.$over.'%"';
-	// }
-	// $page = I('page','1');
-	// $page_count = 20;
-	// $limit = ($page-1)*$page_count;
-	//
-	// $list = $i->table('__INFO__
-	// info')->field('info.*,user.avatarUrl')->join('__USER__ user ON user.id =
-	// info.uid','LEFT')->where($where)->limit($limit,$page_count)->order('time
-	// asc')->select();
-	// //dump($i->getLastSql());
-	// $result['status'] = 1;
-	// $result['msg'] = '获取成功';
-	// $result['list'] = $list;
-	// exit(json_encode($result));
-	// }
-	//
-	//
-	// public function mylist(){
-	// $u = D('User');
-	// $user = $u->getUserInfo(vaild_sk(I('sk')));
-	// $i = D('Info');
-	// $where['uid'] = $user['id'];
-	// $page = I('page','1');
-	// $page_count = 20;
-	// $limit = ($page-1)*$page_count;
-	// $data = $i->where($where)->limit($limit,$page_count)->order('addtime
-	// desc')->select();
-	// $result['status'] = 1;
-	// $result['msg'] = '获取成功';
-	// $result['data'] = $data;
-	// exit(json_encode($result));
-	// }
-	//
-	// public function del(){
-	// $u = D('User');
-	// $i = D('Info');
-	// $user = $u->getUserInfo(vaild_sk(I('sk')));
-	// $where['uid'] = $user['id'];
-	// $where['id'] = I('id');
-	// if($i->where($where)->delete() > 0){
-	// $result['status'] = 1;
-	// $result['msg'] = '删除成功';
-	// }else{
-	// $result['status'] = 0;
-	// $result['msg'] = '删除失败';
-	// }
-	// exit(json_encode($result));
-	// }
-
+	
+	/**
+	 * 删除拼车信息
+	 * 
+	 * 
+	 * 
+	 * 
+	 * @param xcxInfo
+	 * @param sk
+	 * @return
+	 */
+	@RequestMapping("/info/del")
+	public JSONObject del(XcxInfo xcxInfo, String sk) {
+		JSONObject j = new JSONObject();
+		XcxUser user = xcxUserService.getXcxUser(sk);
+		if(null!=user && !StringUtils.isEmpty(user.getId())) {
+			xcxInfo.setUid(user.getId());
+			int data = xcxInfoService.deleteByExample(xcxInfo);
+			if(data>0) {
+				j.put("status", 1);
+				j.put("msg", "删除成功");
+			} else {
+				j.put("status", 0);
+				j.put("msg", "删除失败");
+			}
+		} else {
+			j.put("status", 0);
+			j.put("msg", "删除失败");
+		}
+		return j;
+	}
 }

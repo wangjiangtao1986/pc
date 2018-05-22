@@ -5,14 +5,17 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxMsg;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxMsgSee;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxUser;
 import com.wang.aishenhuo.pc.api.service.XcxInfoService;
+import com.wang.aishenhuo.pc.api.service.XcxMsgSeeService;
 import com.wang.aishenhuo.pc.api.service.XcxMsgService;
 import com.wang.aishenhuo.pc.api.service.XcxUserService;
 
@@ -30,7 +33,7 @@ public class XcxMsgController {
 	
 
 	@Autowired
-	public XcxInfoService xcxInfoService;
+	XcxInfoService xcxInfoService;
 
 	@Autowired
 	XcxUserService xcxUserService;
@@ -38,7 +41,11 @@ public class XcxMsgController {
 	@Autowired
 	XcxMsgService xcxMsgService;
 
+	@Autowired
+	XcxMsgSeeService xcxMsgSeeService;
 
+    @Value("${page.pageSize}")
+    int pageSize;
 
 	@RequestMapping("/msg/add")
 	public JSONObject add(XcxMsg xcxMsg,String sk, HttpServletRequest request) {
@@ -50,12 +57,8 @@ public class XcxMsgController {
 		XcxUser user = xcxUserService.getXcxUser(sk);
 		db.setUid(user.getId());
 		db.setTime((int) System.currentTimeMillis());
-
-//		$data['content'] = I('content','');
-//		$data['img'] = htmlspecialchars_decode(I('img',''));
 		
 		int i = xcxMsgService.insertSelective(db);
-		
 
 		if(i>0) {
 			j.put("status", 1);
@@ -74,12 +77,10 @@ public class XcxMsgController {
 		JSONObject j = new JSONObject();
 
 		XcxUser user = xcxUserService.getXcxUser(sk);
-//		用户信息是否有意义，删除权限控制
 		xcxMsg.setUid(user.getId());
 		xcxMsg.setSee("0");
 		
-		List<XcxMsgSee> list = xcxMsgService.listXcxMsgByType(xcxMsg);
-
+		List<XcxMsgSee> list = xcxMsgSeeService.listXcxMsgByType(xcxMsg);
 
 		j.put("status", 1);
 		j.put("msg", "获取成功");
@@ -90,13 +91,15 @@ public class XcxMsgController {
 
 
 	@RequestMapping("/msg/get")
-	public JSONObject get(XcxMsg xcxMsg,String sk, HttpServletRequest request) {
+	public JSONObject get(XcxMsg xcxMsg,String sk, int page, HttpServletRequest request) {
 
 		JSONObject j = new JSONObject();
 
 		XcxUser user = xcxUserService.getXcxUser(sk);
+//		type
 		xcxMsg.setUid(user.getId());
-		
+
+        PageHelper.startPage(page,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
 		List<XcxMsg> list = xcxMsgService.selectByExample(xcxMsg);
 
 		xcxMsgService.update(list);
@@ -108,39 +111,4 @@ public class XcxMsgController {
 		
 		return j;
 	}
-
-//	public function get(){
-//		$u = D('User');
-//		$user = $u->getUserInfo(vaild_sk(I('sk')));
-//		$where['msg.uid'] = $user['id'];
-//		$where['msg.type'] = I('type');
-//		$page = I('page','1');
-//		$page_count = 20;
-//		$limit = ($page-1)*$page_count;
-//		$data = M('msg')->field('msg.*,user.avatarUrl,user.nickName')->table('__MSG__ msg')->join('__USER__ user on msg.fid=user.id','LEFT')->where($where)->limit($limit,$page_count)->order('msg.time desc')->select();
-//		$see['see'] = 1;
-//		foreach($data as $v){
-//			$arr[] = $v['id'];
-//		}
-//		$str = implode(',',$arr);
-//		$str = 'id in ('.$str.')';
-//		M('msg')->where($str)->save($see);
-//		$result['status'] = 1;
-//		$result['msg'] = '消息加载成功';
-//		$result['data'] = $data;		
-//		exit(json_encode($result));
-//	}
-//	
-//	public function getAll(){
-//		$u = D('User');
-//		$user = $u->getUserInfo(vaild_sk(I('sk')));
-//		$where['uid'] = $user['id'];
-//		$where['see'] = 0;
-//		$data = M('msg')->field('type,count(*) as count')->where($where)->group('type')->select();
-//		$result['status'] = 1;
-//		$result['msg'] = '消息加载成功';
-//		$result['data'] = $data;		
-//		exit(json_encode($result));
-//	}
-
 }

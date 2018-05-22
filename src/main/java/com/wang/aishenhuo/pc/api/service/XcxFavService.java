@@ -24,7 +24,7 @@ public class XcxFavService {
 		return xcxFavMapper.selectByExample(new XcxFavExample());
 	}
 	
-	public XcxFav getXcxFav(Integer id) {
+	public XcxFav getXcxFav(String id) {
 		return xcxFavMapper.selectByPrimaryKey(id);
 	}
 

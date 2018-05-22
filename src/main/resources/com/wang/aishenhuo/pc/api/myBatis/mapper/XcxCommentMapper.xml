@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wang.aishenhuo.pc.api.myBatis.mapper.XcxCommentMapper">
   <resultMap id="BaseResultMap" type="com.wang.aishenhuo.pc.api.myBatis.model.XcxComment">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
     <result column="iid" jdbcType="VARCHAR" property="iid" />
     <result column="time" jdbcType="INTEGER" property="time" />
     <result column="type" jdbcType="VARCHAR" property="type" />
@@ -108,17 +108,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from xcx_comment
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from xcx_comment
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxCommentExample">
     delete from xcx_comment
@@ -130,7 +130,7 @@
     insert into xcx_comment (id, uid, iid, 
       time, type, zan, content, 
       img, reply)
-    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{iid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{iid,jdbcType=VARCHAR}, 
       #{time,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{zan,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, 
       #{img,jdbcType=LONGVARCHAR}, #{reply,jdbcType=LONGVARCHAR})
   </insert>
@@ -167,10 +167,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
+        #{uid,jdbcType=VARCHAR},
       </if>
       <if test="iid != null">
         #{iid,jdbcType=VARCHAR},
@@ -205,10 +205,10 @@
     update xcx_comment
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=INTEGER},
+        uid = #{record.uid,jdbcType=VARCHAR},
       </if>
       <if test="record.iid != null">
         iid = #{record.iid,jdbcType=VARCHAR},
@@ -238,8 +238,8 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update xcx_comment
-    set id = #{record.id,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=VARCHAR},
       iid = #{record.iid,jdbcType=VARCHAR},
       time = #{record.time,jdbcType=INTEGER},
       type = #{record.type,jdbcType=VARCHAR},
@@ -253,8 +253,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update xcx_comment
-    set id = #{record.id,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=VARCHAR},
       iid = #{record.iid,jdbcType=VARCHAR},
       time = #{record.time,jdbcType=INTEGER},
       type = #{record.type,jdbcType=VARCHAR},
@@ -267,7 +267,7 @@
     update xcx_comment
     <set>
       <if test="uid != null">
-        uid = #{uid,jdbcType=INTEGER},
+        uid = #{uid,jdbcType=VARCHAR},
       </if>
       <if test="iid != null">
         iid = #{iid,jdbcType=VARCHAR},
@@ -291,11 +291,11 @@
         reply = #{reply,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxCommentWithBLOBs">
     update xcx_comment
-    set uid = #{uid,jdbcType=INTEGER},
+    set uid = #{uid,jdbcType=VARCHAR},
       iid = #{iid,jdbcType=VARCHAR},
       time = #{time,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
@@ -303,15 +303,15 @@
       content = #{content,jdbcType=LONGVARCHAR},
       img = #{img,jdbcType=LONGVARCHAR},
       reply = #{reply,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxComment">
     update xcx_comment
-    set uid = #{uid,jdbcType=INTEGER},
+    set uid = #{uid,jdbcType=VARCHAR},
       iid = #{iid,jdbcType=VARCHAR},
       time = #{time,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
       zan = #{zan,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

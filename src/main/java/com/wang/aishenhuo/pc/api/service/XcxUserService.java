@@ -26,8 +26,8 @@ public class XcxUserService {
 
 	public XcxUser getXcxUser(XcxUser xcxUser) {
 		if(!ObjectUtils.isEmpty(xcxUser)) {
-			if(!ObjectUtils.isEmpty(xcxUser.getId()) && 0!=xcxUser.getId()) {
-				return getXcxUser(xcxUser.getId());
+			if(!ObjectUtils.isEmpty(xcxUser.getId())) {
+				return selectByPrimaryKey(xcxUser.getId());
 			} else if(!StringUtils.isEmpty(xcxUser.getOpenid())) {
 				return getXcxUser(xcxUser.getOpenid());
 			} else {
@@ -38,7 +38,7 @@ public class XcxUserService {
 		}
 	}
 	
-	public XcxUser getXcxUser(Integer id) {
+	public XcxUser selectByPrimaryKey(String id) {
 		return xcxUserMapper.selectByPrimaryKey(id);
 	}
 

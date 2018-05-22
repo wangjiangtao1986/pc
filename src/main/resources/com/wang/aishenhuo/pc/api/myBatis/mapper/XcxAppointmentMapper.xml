@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wang.aishenhuo.pc.api.myBatis.mapper.XcxAppointmentMapper">
   <resultMap id="BaseResultMap" type="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointment">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
     <result column="iid" jdbcType="VARCHAR" property="iid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
@@ -86,15 +86,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from xcx_appointment
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from xcx_appointment
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentExample">
     delete from xcx_appointment
@@ -106,7 +106,7 @@
     insert into xcx_appointment (id, uid, iid, 
       name, phone, surplus, 
       status, time)
-    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{iid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{iid,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{surplus,jdbcType=TINYINT}, 
       #{status,jdbcType=INTEGER}, #{time,jdbcType=INTEGER})
   </insert>
@@ -140,10 +140,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="uid != null">
-        #{uid,jdbcType=INTEGER},
+        #{uid,jdbcType=VARCHAR},
       </if>
       <if test="iid != null">
         #{iid,jdbcType=VARCHAR},
@@ -175,10 +175,10 @@
     update xcx_appointment
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.uid != null">
-        uid = #{record.uid,jdbcType=INTEGER},
+        uid = #{record.uid,jdbcType=VARCHAR},
       </if>
       <if test="record.iid != null">
         iid = #{record.iid,jdbcType=VARCHAR},
@@ -205,8 +205,8 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update xcx_appointment
-    set id = #{record.id,jdbcType=INTEGER},
-      uid = #{record.uid,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=VARCHAR},
       iid = #{record.iid,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
@@ -221,7 +221,7 @@
     update xcx_appointment
     <set>
       <if test="uid != null">
-        uid = #{uid,jdbcType=INTEGER},
+        uid = #{uid,jdbcType=VARCHAR},
       </if>
       <if test="iid != null">
         iid = #{iid,jdbcType=VARCHAR},
@@ -242,17 +242,17 @@
         time = #{time,jdbcType=INTEGER},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointment">
     update xcx_appointment
-    set uid = #{uid,jdbcType=INTEGER},
+    set uid = #{uid,jdbcType=VARCHAR},
       iid = #{iid,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       surplus = #{surplus,jdbcType=TINYINT},
       status = #{status,jdbcType=INTEGER},
       time = #{time,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -80,9 +80,11 @@
 		<table 
 			tableName="xcx_passenger" 
 			/>
-			
 		<table 
 			tableName="xcx_myfav" 
+			/>
+		<table 
+			tableName="xcx_appointment_detail" 
 			/>
 	</context>
 </generatorConfiguration>

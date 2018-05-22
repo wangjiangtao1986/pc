@@ -11,7 +11,7 @@ public interface XcxDynamicMapper {
 
     int deleteByExample(XcxDynamicExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(XcxDynamicWithBLOBs record);
 
@@ -21,7 +21,7 @@ public interface XcxDynamicMapper {
 
     List<XcxDynamic> selectByExample(XcxDynamicExample example);
 
-    XcxDynamicWithBLOBs selectByPrimaryKey(Integer id);
+    XcxDynamicWithBLOBs selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") XcxDynamicWithBLOBs record, @Param("example") XcxDynamicExample example);
 

@@ -10,7 +10,7 @@ public interface XcxZanMapper {
 
     int deleteByExample(XcxZanExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(XcxZan record);
 
@@ -18,7 +18,7 @@ public interface XcxZanMapper {
 
     List<XcxZan> selectByExample(XcxZanExample example);
 
-    XcxZan selectByPrimaryKey(Integer id);
+    XcxZan selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") XcxZan record, @Param("example") XcxZanExample example);
 

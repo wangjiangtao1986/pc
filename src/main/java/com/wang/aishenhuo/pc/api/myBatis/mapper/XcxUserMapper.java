@@ -10,7 +10,7 @@ public interface XcxUserMapper {
 
     int deleteByExample(XcxUserExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(XcxUser record);
 
@@ -18,7 +18,7 @@ public interface XcxUserMapper {
 
     List<XcxUser> selectByExample(XcxUserExample example);
 
-    XcxUser selectByPrimaryKey(Integer id);
+    XcxUser selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") XcxUser record, @Param("example") XcxUserExample example);
 

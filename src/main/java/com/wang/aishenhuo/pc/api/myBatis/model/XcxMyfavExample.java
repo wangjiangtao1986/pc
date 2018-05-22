@@ -6,17 +6,17 @@ import java.util.List;
 
 public class XcxMyfavExample {
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
     protected String orderByClause;
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
     protected boolean distinct;
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
     protected List<Criteria> oredCriteria;
 
@@ -864,52 +864,62 @@ public class XcxMyfavExample {
             return (Criteria) this;
         }
 
-        public Criteria andUidEqualTo(Integer value) {
+        public Criteria andUidEqualTo(String value) {
             addCriterion("uid =", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andUidNotEqualTo(Integer value) {
+        public Criteria andUidNotEqualTo(String value) {
             addCriterion("uid <>", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andUidGreaterThan(Integer value) {
+        public Criteria andUidGreaterThan(String value) {
             addCriterion("uid >", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andUidGreaterThanOrEqualTo(Integer value) {
+        public Criteria andUidGreaterThanOrEqualTo(String value) {
             addCriterion("uid >=", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andUidLessThan(Integer value) {
+        public Criteria andUidLessThan(String value) {
             addCriterion("uid <", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andUidLessThanOrEqualTo(Integer value) {
+        public Criteria andUidLessThanOrEqualTo(String value) {
             addCriterion("uid <=", value, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andUidIn(List<Integer> values) {
+        public Criteria andUidLike(String value) {
+            addCriterion("uid like", value, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidNotLike(String value) {
+            addCriterion("uid not like", value, "uid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUidIn(List<String> values) {
             addCriterion("uid in", values, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andUidNotIn(List<Integer> values) {
+        public Criteria andUidNotIn(List<String> values) {
             addCriterion("uid not in", values, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andUidBetween(Integer value1, Integer value2) {
+        public Criteria andUidBetween(String value1, String value2) {
             addCriterion("uid between", value1, value2, "uid");
             return (Criteria) this;
         }
 
-        public Criteria andUidNotBetween(Integer value1, Integer value2) {
+        public Criteria andUidNotBetween(String value1, String value2) {
             addCriterion("uid not between", value1, value2, "uid");
             return (Criteria) this;
         }
@@ -1234,52 +1244,62 @@ public class XcxMyfavExample {
             return (Criteria) this;
         }
 
-        public Criteria andFadEqualTo(Integer value) {
+        public Criteria andFadEqualTo(String value) {
             addCriterion("fad =", value, "fad");
             return (Criteria) this;
         }
 
-        public Criteria andFadNotEqualTo(Integer value) {
+        public Criteria andFadNotEqualTo(String value) {
             addCriterion("fad <>", value, "fad");
             return (Criteria) this;
         }
 
-        public Criteria andFadGreaterThan(Integer value) {
+        public Criteria andFadGreaterThan(String value) {
             addCriterion("fad >", value, "fad");
             return (Criteria) this;
         }
 
-        public Criteria andFadGreaterThanOrEqualTo(Integer value) {
+        public Criteria andFadGreaterThanOrEqualTo(String value) {
             addCriterion("fad >=", value, "fad");
             return (Criteria) this;
         }
 
-        public Criteria andFadLessThan(Integer value) {
+        public Criteria andFadLessThan(String value) {
             addCriterion("fad <", value, "fad");
             return (Criteria) this;
         }
 
-        public Criteria andFadLessThanOrEqualTo(Integer value) {
+        public Criteria andFadLessThanOrEqualTo(String value) {
             addCriterion("fad <=", value, "fad");
             return (Criteria) this;
         }
 
-        public Criteria andFadIn(List<Integer> values) {
+        public Criteria andFadLike(String value) {
+            addCriterion("fad like", value, "fad");
+            return (Criteria) this;
+        }
+
+        public Criteria andFadNotLike(String value) {
+            addCriterion("fad not like", value, "fad");
+            return (Criteria) this;
+        }
+
+        public Criteria andFadIn(List<String> values) {
             addCriterion("fad in", values, "fad");
             return (Criteria) this;
         }
 
-        public Criteria andFadNotIn(List<Integer> values) {
+        public Criteria andFadNotIn(List<String> values) {
             addCriterion("fad not in", values, "fad");
             return (Criteria) this;
         }
 
-        public Criteria andFadBetween(Integer value1, Integer value2) {
+        public Criteria andFadBetween(String value1, String value2) {
             addCriterion("fad between", value1, value2, "fad");
             return (Criteria) this;
         }
 
-        public Criteria andFadNotBetween(Integer value1, Integer value2) {
+        public Criteria andFadNotBetween(String value1, String value2) {
             addCriterion("fad not between", value1, value2, "fad");
             return (Criteria) this;
         }

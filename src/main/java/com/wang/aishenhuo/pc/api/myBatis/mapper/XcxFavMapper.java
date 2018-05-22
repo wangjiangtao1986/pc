@@ -10,7 +10,7 @@ public interface XcxFavMapper {
 
     int deleteByExample(XcxFavExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(XcxFav record);
 
@@ -18,7 +18,7 @@ public interface XcxFavMapper {
 
     List<XcxFav> selectByExample(XcxFavExample example);
 
-    XcxFav selectByPrimaryKey(Integer id);
+    XcxFav selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") XcxFav record, @Param("example") XcxFavExample example);
 

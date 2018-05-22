@@ -4,92 +4,92 @@ package com.wang.aishenhuo.pc.api.myBatis.model;
  * 
  * xcx_zan
  *
- * @mbggenerated 2018-05-17 09:51:53
+ * @mbggenerated 2018-05-21 09:36:55
  */
 public class XcxZan {
     /**
      *
      * xcx_zan.id
      *
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    private Integer id;
+    private String id;
 
     /**
      *
      * xcx_zan.uid
      *
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    private Integer uid;
+    private String uid;
 
     /**
      *
      * xcx_zan.cid
      *
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    private Integer cid;
+    private String cid;
 
     /**
      *
      * xcx_zan.time
      *
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
     private Integer time;
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    public Integer getUid() {
+    public String getUid() {
         return uid;
     }
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    public void setUid(Integer uid) {
-        this.uid = uid;
+    public void setUid(String uid) {
+        this.uid = uid == null ? null : uid.trim();
     }
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    public Integer getCid() {
+    public String getCid() {
         return cid;
     }
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
-    public void setCid(Integer cid) {
-        this.cid = cid;
+    public void setCid(String cid) {
+        this.cid = cid == null ? null : cid.trim();
     }
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
     public Integer getTime() {
         return time;
     }
 
     /**
-     * @mbggenerated 2018-05-17 09:51:53
+     * @mbggenerated 2018-05-21 09:36:55
      */
     public void setTime(Integer time) {
         this.time = time;

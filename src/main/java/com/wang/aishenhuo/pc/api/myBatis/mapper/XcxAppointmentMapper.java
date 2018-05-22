@@ -10,7 +10,7 @@ public interface XcxAppointmentMapper {
 
     int deleteByExample(XcxAppointmentExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(XcxAppointment record);
 
@@ -18,7 +18,7 @@ public interface XcxAppointmentMapper {
 
     List<XcxAppointment> selectByExample(XcxAppointmentExample example);
 
-    XcxAppointment selectByPrimaryKey(Integer id);
+    XcxAppointment selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") XcxAppointment record, @Param("example") XcxAppointmentExample example);
 

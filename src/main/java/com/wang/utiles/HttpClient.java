@@ -24,6 +24,9 @@ public class HttpClient {
 	}
 
 	public static String httpPostUrl(String url, JSONObject para) {
+		if(null==para){
+			para = new JSONObject();
+		}
 		return httpPostUrl(url,para.toString());
 	}
 	

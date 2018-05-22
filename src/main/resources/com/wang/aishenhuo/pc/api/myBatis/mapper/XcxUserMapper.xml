@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wang.aishenhuo.pc.api.myBatis.mapper.XcxUserMapper">
   <resultMap id="BaseResultMap" type="com.wang.aishenhuo.pc.api.myBatis.model.XcxUser">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="avatarUrl" jdbcType="VARCHAR" property="avatarurl" />
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="country" jdbcType="VARCHAR" property="country" />
@@ -92,15 +92,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from xcx_user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from xcx_user
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxUserExample">
     delete from xcx_user
@@ -114,7 +114,7 @@
       nickName, openId, province, 
       county, phone, vehicle, 
       name)
-    values (#{id,jdbcType=INTEGER}, #{avatarurl,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{avatarurl,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
       #{country,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{language,jdbcType=VARCHAR}, 
       #{nickname,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{county,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{vehicle,jdbcType=VARCHAR}, 
@@ -165,7 +165,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="avatarurl != null">
         #{avatarurl,jdbcType=VARCHAR},
@@ -215,7 +215,7 @@
     update xcx_user
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.avatarurl != null">
         avatarUrl = #{record.avatarurl,jdbcType=VARCHAR},
@@ -260,7 +260,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update xcx_user
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=VARCHAR},
       avatarUrl = #{record.avatarurl,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
       country = #{record.country,jdbcType=VARCHAR},
@@ -317,7 +317,7 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxUser">
     update xcx_user
@@ -333,6 +333,6 @@
       phone = #{phone,jdbcType=VARCHAR},
       vehicle = #{vehicle,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

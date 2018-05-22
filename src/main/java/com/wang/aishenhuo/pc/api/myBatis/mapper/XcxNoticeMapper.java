@@ -10,7 +10,7 @@ public interface XcxNoticeMapper {
 
     int deleteByExample(XcxNoticeExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String id);
 
     int insert(XcxNotice record);
 
@@ -20,7 +20,7 @@ public interface XcxNoticeMapper {
 
     List<XcxNotice> selectByExample(XcxNoticeExample example);
 
-    XcxNotice selectByPrimaryKey(Integer id);
+    XcxNotice selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") XcxNotice record, @Param("example") XcxNoticeExample example);
 
