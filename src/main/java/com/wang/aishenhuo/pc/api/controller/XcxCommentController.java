@@ -175,15 +175,19 @@ public class XcxCommentController {
 		XcxInfo xcxInfo = xcxInfoService.getXcxInfo(xcxComment.getIid());
 		XcxMsg xcxMsg = new XcxMsg();
 		xcxMsg.setContent("回复了您的信息 :" + xcxComment.getContent());
-		xcxMsg.setAvatarurl(user.getAvatarurl());
-		xcxMsg.setNickname(user.getNickname());
 		xcxMsg.setType("comment");
 		xcxMsg.setUrl("/pages/" + xcxComment.getType() + "/index?id=" + xcxComment.getIid());
 		xcxMsg.setTime((int) System.currentTimeMillis());
 		
+		if(null!=user) {
+			xcxMsg.setAvatarurl(user.getAvatarurl());
+			xcxMsg.setNickname(user.getNickname());
 //			两个字段需要区别对待
-		xcxMsg.setUid(user.getId());
-		xcxMsg.setFid(xcxInfo.getUid());
+			xcxMsg.setUid(user.getId());
+		}
+		if(null!=xcxInfo && !StringUtils.isEmpty(xcxInfo.getUid())) {
+			xcxMsg.setFid(xcxInfo.getUid());
+		}
 		
 		xcxMsgService.insertSelective(xcxMsg);
 	}

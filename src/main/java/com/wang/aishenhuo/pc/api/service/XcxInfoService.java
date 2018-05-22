@@ -18,15 +18,17 @@ public class XcxInfoService {
 
 	@Autowired
 	private XcxInfoMapper xcxInfoMapper;
-
-//	public List<XcxInfo> listXcxInfo() {
-//		return xcxInfoMapper.selectByExample(new XcxInfoExample());
-//	}
 	
 	public XcxInfo getXcxInfo(String id) {
 		return xcxInfoMapper.selectByPrimaryKey(id);
 	}
 
+	/**
+	 * 支持跨天查询
+	 * 
+	 * @param record
+	 * @return
+	 */
 	public List<XcxInfo> selectByExample(XcxInfo record) {
 		List<XcxInfo> list = new ArrayList<XcxInfo>();
 		XcxInfoExample e = new XcxInfoExample();
@@ -51,6 +53,7 @@ public class XcxInfoService {
 				c.andUidEqualTo(record.getUid());
 			}
 
+			e.setOrderByClause(" date asc, time asc, addtime desc  ");
 			list = xcxInfoMapper.selectByExample(e);
 		}
 		return list;

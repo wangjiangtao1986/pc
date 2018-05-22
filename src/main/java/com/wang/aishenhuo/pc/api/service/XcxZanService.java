@@ -2,7 +2,9 @@ package com.wang.aishenhuo.pc.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -29,9 +31,9 @@ public class XcxZanService {
 
 	public List<XcxZan> selectByExample(XcxZan record) {
 		List<XcxZan> list = new ArrayList<XcxZan>();
-		XcxZanExample e = new XcxZanExample();
-		Criteria c = e.createCriteria();
-		if(!ObjectUtils.isEmpty(record)) {
+		if(!ObjectUtils.isEmpty(record) && !StringUtils.isEmpty(record.getCid()) && !StringUtils.isEmpty(record.getUid())) {
+			XcxZanExample e = new XcxZanExample();
+			Criteria c = e.createCriteria();
 			c.andCidEqualTo(record.getCid());
 			c.andUidEqualTo(record.getUid());
 			list = xcxZanMapper.selectByExample(e);
@@ -41,6 +43,7 @@ public class XcxZanService {
 
 
 	public int insertSelective(XcxZan xcxZan) {
+		xcxZan.setId(UUID.randomUUID().toString());
 		return xcxZanMapper.insertSelective(xcxZan);
 	}
 

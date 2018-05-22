@@ -1,6 +1,7 @@
 package com.wang.aishenhuo.pc.api.controller;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -81,6 +82,7 @@ public class XcxUserController {
 		if(ObjectUtils.isEmpty(xcxUser)) {//如果第一次登陆
 			JSONObject userInfo = getUserInfo(data.get("session_key").toString(),encryptedData,iv);
 			xcxUser = new XcxUser();
+			xcxUser.setId(UUID.randomUUID().toString());
 			xcxUser.setAvatarurl(userInfo.getString("avatarUrl"));
 			xcxUser.setCity(userInfo.getString("city"));
 			xcxUser.setCountry(userInfo.getString("country"));
@@ -98,7 +100,7 @@ public class XcxUserController {
 		} else {
 
 		}
-		xcxUser = xcxUserService.getXcxUser(openid);
+//		xcxUser = xcxUserService.getXcxUser(openid);
 
 		 j.put("user", xcxUser);
 		 j.put("sk", openid);
@@ -140,7 +142,7 @@ public class XcxUserController {
 	public JSONObject editUser(@RequestBody Map<String, Object> params) {
 		JSONObject jo = new JSONObject();
 		JSONObject jp = new JSONObject(params);
-		if(null==params) {
+		if(null!=params) {
 			Map userInfo = (Map) jp.get("userInfo");
 			XcxUser user = xcxUserService.getXcxUser(jp.getString("sk"));
 			user.setAvatarurl(userInfo.get("avatarurl").toString());
@@ -159,7 +161,9 @@ public class XcxUserController {
 			jo.put("status", 1);
 			jo.put("msg", "修改成功");
 			jo.put("user", user);
-			
+		} else {
+			jo.put("status", 0);
+			jo.put("msg", "修改失败");
 		}
 		return jo;
 	}
