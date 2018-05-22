@@ -3,7 +3,7 @@ package com.wang.aishenhuo.pc.api.myBatis.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XcxAppointmentExample {
+public class XcxAppointmentDetailExample {
     /**
      * @mbggenerated 2018-05-22 17:46:16
      */
@@ -19,7 +19,7 @@ public class XcxAppointmentExample {
      */
     protected List<Criteria> oredCriteria;
 
-    public XcxAppointmentExample() {
+    public XcxAppointmentDetailExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -111,6 +111,146 @@ public class XcxAppointmentExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        public Criteria andDepartureIsNull() {
+            addCriterion("departure is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureIsNotNull() {
+            addCriterion("departure is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureEqualTo(String value) {
+            addCriterion("departure =", value, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureNotEqualTo(String value) {
+            addCriterion("departure <>", value, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureGreaterThan(String value) {
+            addCriterion("departure >", value, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureGreaterThanOrEqualTo(String value) {
+            addCriterion("departure >=", value, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureLessThan(String value) {
+            addCriterion("departure <", value, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureLessThanOrEqualTo(String value) {
+            addCriterion("departure <=", value, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureLike(String value) {
+            addCriterion("departure like", value, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureNotLike(String value) {
+            addCriterion("departure not like", value, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureIn(List<String> values) {
+            addCriterion("departure in", values, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureNotIn(List<String> values) {
+            addCriterion("departure not in", values, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureBetween(String value1, String value2) {
+            addCriterion("departure between", value1, value2, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartureNotBetween(String value1, String value2) {
+            addCriterion("departure not between", value1, value2, "departure");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationIsNull() {
+            addCriterion("destination is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationIsNotNull() {
+            addCriterion("destination is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationEqualTo(String value) {
+            addCriterion("destination =", value, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationNotEqualTo(String value) {
+            addCriterion("destination <>", value, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationGreaterThan(String value) {
+            addCriterion("destination >", value, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationGreaterThanOrEqualTo(String value) {
+            addCriterion("destination >=", value, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationLessThan(String value) {
+            addCriterion("destination <", value, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationLessThanOrEqualTo(String value) {
+            addCriterion("destination <=", value, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationLike(String value) {
+            addCriterion("destination like", value, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationNotLike(String value) {
+            addCriterion("destination not like", value, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationIn(List<String> values) {
+            addCriterion("destination in", values, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationNotIn(List<String> values) {
+            addCriterion("destination not in", values, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationBetween(String value1, String value2) {
+            addCriterion("destination between", value1, value2, "destination");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestinationNotBetween(String value1, String value2) {
+            addCriterion("destination not between", value1, value2, "destination");
+            return (Criteria) this;
         }
 
         public Criteria andIdIsNull() {

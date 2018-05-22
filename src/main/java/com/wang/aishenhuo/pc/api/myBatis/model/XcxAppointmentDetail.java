@@ -2,14 +2,30 @@ package com.wang.aishenhuo.pc.api.myBatis.model;
 
 /**
  * 
- * xcx_appointment
+ * xcx_appointment_detail
  *
  * @mbggenerated 2018-05-22 17:46:16
  */
-public class XcxAppointment {
+public class XcxAppointmentDetail {
     /**
      *
-     * xcx_appointment.id
+     * xcx_appointment_detail.departure
+     *
+     * @mbggenerated 2018-05-22 17:46:16
+     */
+    private String departure;
+
+    /**
+     *
+     * xcx_appointment_detail.destination
+     *
+     * @mbggenerated 2018-05-22 17:46:16
+     */
+    private String destination;
+
+    /**
+     *
+     * xcx_appointment_detail.id
      *
      * @mbggenerated 2018-05-22 17:46:16
      */
@@ -17,7 +33,7 @@ public class XcxAppointment {
 
     /**
      *
-     * xcx_appointment.uid
+     * xcx_appointment_detail.uid
      *
      * @mbggenerated 2018-05-22 17:46:16
      */
@@ -25,7 +41,7 @@ public class XcxAppointment {
 
     /**
      *
-     * xcx_appointment.iid
+     * xcx_appointment_detail.iid
      *
      * @mbggenerated 2018-05-22 17:46:16
      */
@@ -33,7 +49,7 @@ public class XcxAppointment {
 
     /**
      *
-     * xcx_appointment.name
+     * xcx_appointment_detail.name
      *
      * @mbggenerated 2018-05-22 17:46:16
      */
@@ -41,7 +57,7 @@ public class XcxAppointment {
 
     /**
      *
-     * xcx_appointment.phone
+     * xcx_appointment_detail.phone
      *
      * @mbggenerated 2018-05-22 17:46:16
      */
@@ -49,7 +65,7 @@ public class XcxAppointment {
 
     /**
      *
-     * xcx_appointment.surplus
+     * xcx_appointment_detail.surplus
      *
      * @mbggenerated 2018-05-22 17:46:16
      */
@@ -57,7 +73,7 @@ public class XcxAppointment {
 
     /**
      *
-     * xcx_appointment.status
+     * xcx_appointment_detail.status
      *
      * @mbggenerated 2018-05-22 17:46:16
      */
@@ -65,11 +81,39 @@ public class XcxAppointment {
 
     /**
      *
-     * xcx_appointment.time
+     * xcx_appointment_detail.time
      *
      * @mbggenerated 2018-05-22 17:46:16
      */
     private Integer time;
+
+    /**
+     * @mbggenerated 2018-05-22 17:46:16
+     */
+    public String getDeparture() {
+        return departure;
+    }
+
+    /**
+     * @mbggenerated 2018-05-22 17:46:16
+     */
+    public void setDeparture(String departure) {
+        this.departure = departure == null ? null : departure.trim();
+    }
+
+    /**
+     * @mbggenerated 2018-05-22 17:46:16
+     */
+    public String getDestination() {
+        return destination;
+    }
+
+    /**
+     * @mbggenerated 2018-05-22 17:46:16
+     */
+    public void setDestination(String destination) {
+        this.destination = destination == null ? null : destination.trim();
+    }
 
     /**
      * @mbggenerated 2018-05-22 17:46:16

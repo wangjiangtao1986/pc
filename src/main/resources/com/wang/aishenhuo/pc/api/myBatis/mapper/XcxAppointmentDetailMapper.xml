@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.aishenhuo.pc.api.myBatis.mapper.XcxAppointmentDetailMapper">
+  <resultMap id="BaseResultMap" type="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentDetail">
+    <result column="departure" jdbcType="VARCHAR" property="departure" />
+    <result column="destination" jdbcType="VARCHAR" property="destination" />
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="iid" jdbcType="VARCHAR" property="iid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="surplus" jdbcType="TINYINT" property="surplus" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="time" jdbcType="INTEGER" property="time" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    departure, destination, id, uid, iid, name, phone, surplus, status, time
+  </sql>
+  <select id="selectByExample" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from xcx_appointment_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentDetailExample">
+    delete from xcx_appointment_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentDetail">
+    insert into xcx_appointment_detail (departure, destination, id, 
+      uid, iid, name, phone, 
+      surplus, status, time
+      )
+    values (#{departure,jdbcType=VARCHAR}, #{destination,jdbcType=VARCHAR}, #{id,jdbcType=VARCHAR}, 
+      #{uid,jdbcType=VARCHAR}, #{iid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{surplus,jdbcType=TINYINT}, #{status,jdbcType=INTEGER}, #{time,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentDetail">
+    insert into xcx_appointment_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="departure != null">
+        departure,
+      </if>
+      <if test="destination != null">
+        destination,
+      </if>
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="iid != null">
+        iid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="surplus != null">
+        surplus,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="departure != null">
+        #{departure,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null">
+        #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="iid != null">
+        #{iid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="surplus != null">
+        #{surplus,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxAppointmentDetailExample" resultType="java.lang.Integer">
+    select count(*) from xcx_appointment_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update xcx_appointment_detail
+    <set>
+      <if test="record.departure != null">
+        departure = #{record.departure,jdbcType=VARCHAR},
+      </if>
+      <if test="record.destination != null">
+        destination = #{record.destination,jdbcType=VARCHAR},
+      </if>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iid != null">
+        iid = #{record.iid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.surplus != null">
+        surplus = #{record.surplus,jdbcType=TINYINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.time != null">
+        time = #{record.time,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update xcx_appointment_detail
+    set departure = #{record.departure,jdbcType=VARCHAR},
+      destination = #{record.destination,jdbcType=VARCHAR},
+      id = #{record.id,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=VARCHAR},
+      iid = #{record.iid,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      surplus = #{record.surplus,jdbcType=TINYINT},
+      status = #{record.status,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

@@ -1,6 +1,7 @@
 package com.wang.aishenhuo.pc.api.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,6 @@ public class XcxCommentController {
 
 	@Value("${page.pageSize}")
     int pageSize;
-    
 
 
     /**
@@ -65,10 +65,12 @@ public class XcxCommentController {
 		XcxUser user = xcxUserService.getXcxUser(sk);
 		if(null!=user && !StringUtils.isEmpty(user.getId())) {
 			xcxComment.setUid(user.getId());
+			xcxComment.setAvatarurl(user.getAvatarurl());
 			xcxComment.setTime((int) System.currentTimeMillis());
 			if(StringUtils.isEmpty(xcxComment.getImg())){
 				xcxComment.setImg("[]");
 			}
+			xcxComment.setId(UUID.randomUUID().toString());
 			int i = xcxCommentService.insertSelective(xcxComment);
 			if(i>0) {
 				j.put("status", 1);

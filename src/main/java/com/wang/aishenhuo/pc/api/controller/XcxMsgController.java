@@ -2,8 +2,7 @@ package com.wang.aishenhuo.pc.api.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,48 +20,48 @@ import com.wang.aishenhuo.pc.api.service.XcxUserService;
 
 /**
  * 
- * 列表分页
- * 附件插入
- * 删除控制
+ * 通知消息
  * 
- * @author Administrator
- *
+ * @author 王江涛
  */
 @RestController
 public class XcxMsgController {
-	
 
 	@Autowired
 	XcxInfoService xcxInfoService;
-
 	@Autowired
 	XcxUserService xcxUserService;
-
 	@Autowired
 	XcxMsgService xcxMsgService;
-
 	@Autowired
 	XcxMsgSeeService xcxMsgSeeService;
-
     @Value("${page.pageSize}")
     int pageSize;
 
+    /**
+     * 添加消息\发布消息
+     * 
+     * @param xcxMsg
+     * @param sk
+     * @param request
+     * @return
+     */
 	@RequestMapping("/msg/add")
-	public JSONObject add(XcxMsg xcxMsg,String sk, HttpServletRequest request) {
-
+	public JSONObject add(XcxMsg xcxMsg,String sk) {
 		JSONObject j = new JSONObject();
-		
 		XcxMsg db = new XcxMsg();
-
 		XcxUser user = xcxUserService.getXcxUser(sk);
-		db.setUid(user.getId());
-		db.setTime((int) System.currentTimeMillis());
-		
-		int i = xcxMsgService.insertSelective(db);
-
-		if(i>0) {
-			j.put("status", 1);
-			j.put("msg", "发表成功");
+		if(null!=user&&!StringUtils.isEmpty(user.getId())) {
+			db.setUid(user.getId());
+			db.setTime((int) System.currentTimeMillis());
+			int i = xcxMsgService.insertSelective(db);
+			if(i>0) {
+				j.put("status", 1);
+				j.put("msg", "发表成功");
+			} else {
+				j.put("status", 0);
+				j.put("msg", "发表失败");
+			}
 		} else {
 			j.put("status", 0);
 			j.put("msg", "发表失败");
@@ -70,45 +69,61 @@ public class XcxMsgController {
 		return j;
 	}
 
-
+	/**
+	 * msg 汇总 未读统计
+	 * 
+	 * 
+	 * 
+	 * @param xcxMsg
+	 * @param sk
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/msg/getall")
-	public JSONObject getall(XcxMsg xcxMsg,String sk, HttpServletRequest request) {
-
+	public JSONObject getall(XcxMsg xcxMsg,String sk) {
 		JSONObject j = new JSONObject();
-
 		XcxUser user = xcxUserService.getXcxUser(sk);
-		xcxMsg.setUid(user.getId());
-		xcxMsg.setSee("0");
-		
-		List<XcxMsgSee> list = xcxMsgSeeService.listXcxMsgByType(xcxMsg);
-
-		j.put("status", 1);
-		j.put("msg", "获取成功");
-		j.put("data", list);
-		
+		if(null!=user&&!StringUtils.isEmpty(user.getId())) {
+			xcxMsg.setUid(user.getId());
+			xcxMsg.setSee("0");
+			List<XcxMsgSee> list = xcxMsgSeeService.listXcxMsgByType(xcxMsg);
+			j.put("status", 1);
+			j.put("msg", "获取成功");
+			j.put("data", list);
+		} else {
+			j.put("status", 0);
+			j.put("msg", "获取失败");
+		}
 		return j;
 	}
 
 
+	/**
+	 * 获取消息列表
+	 * 
+	 * 
+	 * 
+	 * @param xcxMsg
+	 * @param sk
+	 * @param page
+	 * @return
+	 */
 	@RequestMapping("/msg/get")
-	public JSONObject get(XcxMsg xcxMsg,String sk, int page, HttpServletRequest request) {
-
+	public JSONObject get(XcxMsg xcxMsg,String sk, int page) {
 		JSONObject j = new JSONObject();
-
 		XcxUser user = xcxUserService.getXcxUser(sk);
-//		type
-		xcxMsg.setUid(user.getId());
-
-        PageHelper.startPage(page,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
-		List<XcxMsg> list = xcxMsgService.selectByExample(xcxMsg);
-
-		xcxMsgService.update(list);
-		
-		
-		j.put("status", 1);
-		j.put("msg", "消息加载成功");
-		j.put("data", list);
-		
+		if(null!=user&&!StringUtils.isEmpty(user.getId())) {
+			xcxMsg.setUid(user.getId());
+	        PageHelper.startPage(page,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
+			List<XcxMsg> list = xcxMsgService.selectByExample(xcxMsg);
+			xcxMsgService.update(list);
+			j.put("status", 1);
+			j.put("msg", "消息加载成功");
+			j.put("data", list);
+		} else {
+			j.put("status", 0);
+			j.put("msg", "消息加载失败");
+		}
 		return j;
 	}
 }

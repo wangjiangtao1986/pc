@@ -1,6 +1,7 @@
 package com.wang.aishenhuo.pc.api.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class XcxFavController {
 		if(null!=user && !StringUtils.isEmpty(user.getId())) {
 			xcxFav.setUid(user.getId());
 			xcxFav.setTime((int) System.currentTimeMillis());
+			xcxFav.setId(UUID.randomUUID().toString());
 			int i = xcxFavService.insertSelective(xcxFav);
 			if (i > 0) {
 				j.put("status", 1);

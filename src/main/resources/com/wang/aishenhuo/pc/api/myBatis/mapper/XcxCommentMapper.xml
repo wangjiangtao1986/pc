@@ -8,6 +8,7 @@
     <result column="time" jdbcType="INTEGER" property="time" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="zan" jdbcType="INTEGER" property="zan" />
+    <result column="avatarUrl" jdbcType="VARCHAR" property="avatarurl" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.wang.aishenhuo.pc.api.myBatis.model.XcxCommentWithBLOBs">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
@@ -73,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uid, iid, time, type, zan
+    id, uid, iid, time, type, zan, avatarUrl
   </sql>
   <sql id="Blob_Column_List">
     content, img, reply
@@ -128,11 +129,13 @@
   </delete>
   <insert id="insert" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxCommentWithBLOBs">
     insert into xcx_comment (id, uid, iid, 
-      time, type, zan, content, 
-      img, reply)
+      time, type, zan, avatarUrl, 
+      content, img, reply
+      )
     values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{iid,jdbcType=VARCHAR}, 
-      #{time,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{zan,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, 
-      #{img,jdbcType=LONGVARCHAR}, #{reply,jdbcType=LONGVARCHAR})
+      #{time,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{zan,jdbcType=INTEGER}, #{avatarurl,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR}, #{img,jdbcType=LONGVARCHAR}, #{reply,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.wang.aishenhuo.pc.api.myBatis.model.XcxCommentWithBLOBs">
     insert into xcx_comment
@@ -154,6 +157,9 @@
       </if>
       <if test="zan != null">
         zan,
+      </if>
+      <if test="avatarurl != null">
+        avatarUrl,
       </if>
       <if test="content != null">
         content,
@@ -183,6 +189,9 @@
       </if>
       <if test="zan != null">
         #{zan,jdbcType=INTEGER},
+      </if>
+      <if test="avatarurl != null">
+        #{avatarurl,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
@@ -222,6 +231,9 @@
       <if test="record.zan != null">
         zan = #{record.zan,jdbcType=INTEGER},
       </if>
+      <if test="record.avatarurl != null">
+        avatarUrl = #{record.avatarurl,jdbcType=VARCHAR},
+      </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=LONGVARCHAR},
       </if>
@@ -244,6 +256,7 @@
       time = #{record.time,jdbcType=INTEGER},
       type = #{record.type,jdbcType=VARCHAR},
       zan = #{record.zan,jdbcType=INTEGER},
+      avatarUrl = #{record.avatarurl,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=LONGVARCHAR},
       img = #{record.img,jdbcType=LONGVARCHAR},
       reply = #{record.reply,jdbcType=LONGVARCHAR}
@@ -258,7 +271,8 @@
       iid = #{record.iid,jdbcType=VARCHAR},
       time = #{record.time,jdbcType=INTEGER},
       type = #{record.type,jdbcType=VARCHAR},
-      zan = #{record.zan,jdbcType=INTEGER}
+      zan = #{record.zan,jdbcType=INTEGER},
+      avatarUrl = #{record.avatarurl,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -281,6 +295,9 @@
       <if test="zan != null">
         zan = #{zan,jdbcType=INTEGER},
       </if>
+      <if test="avatarurl != null">
+        avatarUrl = #{avatarurl,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -300,6 +317,7 @@
       time = #{time,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
       zan = #{zan,jdbcType=INTEGER},
+      avatarUrl = #{avatarurl,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR},
       img = #{img,jdbcType=LONGVARCHAR},
       reply = #{reply,jdbcType=LONGVARCHAR}
@@ -311,7 +329,8 @@
       iid = #{iid,jdbcType=VARCHAR},
       time = #{time,jdbcType=INTEGER},
       type = #{type,jdbcType=VARCHAR},
-      zan = #{zan,jdbcType=INTEGER}
+      zan = #{zan,jdbcType=INTEGER},
+      avatarUrl = #{avatarurl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
