@@ -1,5 +1,6 @@
 package com.wang.aishenhuo.pc.api.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,7 +67,7 @@ public class XcxCommentController {
 		if(null!=user && !StringUtils.isEmpty(user.getId())) {
 			xcxComment.setUid(user.getId());
 			xcxComment.setAvatarurl(user.getAvatarurl());
-			xcxComment.setTime((int) System.currentTimeMillis());
+			xcxComment.setTime((int) (new Date().getTime()/1000));
 			if(StringUtils.isEmpty(xcxComment.getImg())){
 				xcxComment.setImg("[]");
 			}
@@ -151,7 +152,7 @@ public class XcxCommentController {
 				j.put("status", 0);
 				j.put("msg", "你已经赞过了");
 			} else {
-				xcxZan.setTime((int) System.currentTimeMillis());
+				xcxZan.setTime((int) (new Date().getTime()/1000));
 				xcxZanService.insertSelective(xcxZan);
 				
 				XcxCommentWithBLOBs xcxComment = xcxCommentService.getXcxComment(xcxZan.getCid());
@@ -177,7 +178,7 @@ public class XcxCommentController {
 		xcxMsg.setContent("回复了您的信息 :" + xcxComment.getContent());
 		xcxMsg.setType("comment");
 		xcxMsg.setUrl("/pages/" + xcxComment.getType() + "/index?id=" + xcxComment.getIid());
-		xcxMsg.setTime((int) System.currentTimeMillis());
+		xcxMsg.setTime((int) (new Date().getTime()/1000));
 		
 		if(null!=user) {
 			xcxMsg.setAvatarurl(user.getAvatarurl());
@@ -199,7 +200,7 @@ public class XcxCommentController {
 		xcxMsg.setType("zan");
 		xcxMsg.setContent("赞了你的评论 :" + xcxComment.getContent());
 		xcxMsg.setUrl("/pages/info/index?id=" + xcxComment.getIid());
-		xcxMsg.setTime((int) System.currentTimeMillis());
+		xcxMsg.setTime((int) (new Date().getTime()/1000));
 		xcxMsg.setUid(user.getId());
 		xcxMsg.setFid(xcxComment.getUid());
 		xcxMsgService.insertSelective(xcxMsg);

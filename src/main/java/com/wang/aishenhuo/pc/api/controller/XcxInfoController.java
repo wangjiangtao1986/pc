@@ -74,30 +74,46 @@ public class XcxInfoController {
 	@RequestMapping("/info/add")
 	public JSONObject add(XcxInfo xcxInfo, String sk) {
 		JSONObject j = new JSONObject();
-		XcxUser user = xcxUserService.getXcxUser(sk);
-		xcxInfo.setUid(user.getId());
-		xcxInfo.setAddtime((int) System.currentTimeMillis());
-		xcxInfo.setId(UUID.randomUUID().toString());
-		xcxInfo.setAvatarurl(user.getAvatarurl());
-		int i = xcxInfoService.insertSelective(xcxInfo);
-		if (i > 0) {
-			j.put("status", 1);
-			j.put("msg", "发布成功");
-			j.put("info", xcxInfo.getId());
-			if (StringUtils.isEmpty(user.getPhone())) {
-				user.setPhone(xcxInfo.getPhone());
+		//添加
+		if(StringUtils.isEmpty(xcxInfo.getId())) {
+
+			XcxUser user = xcxUserService.getXcxUser(sk);
+			xcxInfo.setUid(user.getId());
+			xcxInfo.setAddtime((int) System.currentTimeMillis());
+			xcxInfo.setAvatarurl(user.getAvatarurl());
+			
+			xcxInfo.setId(UUID.randomUUID().toString());
+			int i = xcxInfoService.insertSelective(xcxInfo);
+			if (i > 0) {
+				j.put("status", 1);
+				j.put("msg", "发布成功");
+				j.put("info", xcxInfo.getId());
+				if (StringUtils.isEmpty(user.getPhone())) {
+					user.setPhone(xcxInfo.getPhone());
+				}
+				if (StringUtils.isEmpty(user.getVehicle())) {
+					user.setVehicle(xcxInfo.getVehicle());
+				}
+				if (StringUtils.isEmpty(user.getName())) {
+					user.setName(xcxInfo.getName());
+				}
+				xcxUserService.updateByPrimaryKey(user);
+			} else {
+				j.put("status", 0);
+				j.put("msg", "发布失败");
 			}
-			if (StringUtils.isEmpty(user.getVehicle())) {
-				user.setVehicle(xcxInfo.getVehicle());
-			}
-			if (StringUtils.isEmpty(user.getName())) {
-				user.setName(xcxInfo.getName());
-			}
-			xcxUserService.updateByPrimaryKey(user);
 		} else {
-			j.put("status", 0);
-			j.put("msg", "发布失败");
+			int i = xcxInfoService.updateByPrimaryKeySelective(xcxInfo);
+			if (i > 0) {
+				j.put("status", 1);
+				j.put("msg", "修改成功");
+				j.put("info", xcxInfo.getId());
+			} else {
+				j.put("status", 0);
+				j.put("msg", "修改失败");
+			}
 		}
+		
 		return j;
 	}
 

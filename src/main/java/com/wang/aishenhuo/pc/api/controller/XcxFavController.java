@@ -1,5 +1,6 @@
 package com.wang.aishenhuo.pc.api.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,7 +55,7 @@ public class XcxFavController {
 		XcxUser user = xcxUserService.getXcxUser(sk);
 		if(null!=user && !StringUtils.isEmpty(user.getId())) {
 			xcxFav.setUid(user.getId());
-			xcxFav.setTime((int) System.currentTimeMillis());
+			xcxFav.setTime((int) (new Date().getTime()/1000));
 			xcxFav.setId(UUID.randomUUID().toString());
 			int i = xcxFavService.insertSelective(xcxFav);
 			if (i > 0) {
@@ -86,7 +87,7 @@ public class XcxFavController {
 		XcxUser user = xcxUserService.getXcxUser(sk);
 		if(null!=user && !StringUtils.isEmpty(user.getId())) {
 			xcxFav.setUid(user.getId());
-			xcxFav.setTime((int) System.currentTimeMillis());
+			xcxFav.setTime((int) (new Date().getTime()/1000));
 			int i = xcxFavService.deleteByExample(xcxFav);
 			if (i > 0) {
 				j.put("status", 1);
@@ -118,7 +119,7 @@ public class XcxFavController {
 		XcxUser user = xcxUserService.getXcxUser(sk);
 		if(null!=user && !StringUtils.isEmpty(user.getId())) {
 			xcxFav.setUid(user.getId());
-			xcxFav.setTime((int) System.currentTimeMillis());
+			xcxFav.setTime((int) (new Date().getTime()/1000));
 			List<XcxFav> i = xcxFavService.selectByExample(xcxFav);
 			if (null!=i && i.size() > 0) {
 				j.put("status", 1);

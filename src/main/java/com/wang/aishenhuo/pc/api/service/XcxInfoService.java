@@ -41,12 +41,12 @@ public class XcxInfoService {
 
 			if(!StringUtils.isEmpty(record.getDeparture())){
 //				c.andDepartureEqualTo(record.getDeparture());
-				c.andDepartureLike(record.getDeparture());
+				c.andDepartureLike("%" + record.getDeparture() + "%");
 			}
 
 			if(!StringUtils.isEmpty(record.getDestination())){
 //				c.andDestinationEqualTo(record.getDestination());
-				c.andDestinationLike(record.getDestination());
+				c.andDestinationLike("%" + record.getDestination() + "%");
 			}
 
 			if(!StringUtils.isEmpty(record.getUid())){
@@ -63,6 +63,10 @@ public class XcxInfoService {
 		return xcxInfoMapper.insertSelective(xcxInfo);
 	}
 
+	public int updateByPrimaryKeySelective(XcxInfo record) {
+		return xcxInfoMapper.updateByPrimaryKeySelective(record);
+	}
+
 	public int count(XcxInfo xcxInfo) {
 		XcxInfoExample e = new XcxInfoExample();
 		Criteria c = e.createCriteria();
@@ -71,13 +75,13 @@ public class XcxInfoService {
 	}
 
 	public int deleteByExample(XcxInfo xcxInfo) {
-		XcxInfoExample e = new XcxInfoExample();
-		Criteria c = e.createCriteria();
 		if(!ObjectUtils.isEmpty(xcxInfo) && !StringUtils.isEmpty(xcxInfo.getUid()) && !StringUtils.isEmpty(xcxInfo.getId())) {
-			if(!StringUtils.isEmpty(xcxInfo.getUid())){
+			XcxInfoExample e = new XcxInfoExample();
+			Criteria c = e.createCriteria();
+			if(!StringUtils.isEmpty(xcxInfo.getUid())) {
 				c.andUidEqualTo(xcxInfo.getUid());
 			}
-			if(!StringUtils.isEmpty(xcxInfo.getId())){
+			if(!StringUtils.isEmpty(xcxInfo.getId())) {
 				c.andIdEqualTo(xcxInfo.getId());
 			}
 			return xcxInfoMapper.deleteByExample(e);

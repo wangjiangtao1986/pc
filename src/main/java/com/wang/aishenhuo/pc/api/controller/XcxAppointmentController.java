@@ -1,6 +1,7 @@
 package com.wang.aishenhuo.pc.api.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -185,12 +186,12 @@ public class XcxAppointmentController {
 	 * @return
 	 */
 	@RequestMapping("/appointment/getPassenger")
-	public JSONObject getPassenger(XcxPassenger xcxPassenger,int page, String sk) {
+	public JSONObject getPassenger(XcxPassenger xcxPassenger, String sk) {
 		JSONObject j = new JSONObject();
 		XcxUser user = xcxUserService.getXcxUser(sk);
 		if(null!=user && !StringUtils.isEmpty(user.getId())) {
 			xcxPassenger.setUid(user.getId());
-//	        PageHelper.startPage(page,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
+//	        PageHelper.startPage(page,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数 ,int page
 			List<XcxPassenger> info = xcxPassengerService.selectByExample(xcxPassenger);
 			if(null!=info && info.size()>0){
 				j.put("status", 1);
@@ -326,7 +327,7 @@ public class XcxAppointmentController {
 			j.put("msg", "预约失败");
 		} else {
 			xcxAppointment.setUid(user.getId());
-			xcxAppointment.setTime((int) System.currentTimeMillis());
+			xcxAppointment.setTime((int) (new Date().getTime()/1000));
 			List<XcxAppointment> info = xcxAppointmentService.selectByExample(xcxAppointment);
 
 			if(null!=info && info.size()>10) {
@@ -405,7 +406,7 @@ public class XcxAppointmentController {
 		xcxMsg.setNickname(user.getNickname());
 		xcxMsg.setType("notice");
 		xcxMsg.setUrl("/pages/appointment/index?id=" + xcxAppointment.getIid());
-		xcxMsg.setTime((int) System.currentTimeMillis());
+		xcxMsg.setTime((int) (new Date().getTime()/1000));
 //					两个字段需要区别对待
 		xcxMsg.setUid("10000");
 		xcxMsg.setFid(xcxInfo.getUid());
@@ -420,7 +421,7 @@ public class XcxAppointmentController {
 		xcxMsg.setNickname(user.getNickname());
 		xcxMsg.setType("notice");
 		xcxMsg.setUrl(url);
-		xcxMsg.setTime((int) System.currentTimeMillis());
+		xcxMsg.setTime((int) (new Date().getTime()/1000));
 		
 //			两个字段需要区别对待
 		xcxMsg.setUid(xcxInfo.getUid());

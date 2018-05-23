@@ -14,6 +14,7 @@ import com.wang.aishenhuo.pc.api.myBatis.model.XcxComment;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxCommentExample;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxCommentExample.Criteria;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxCommentWithBLOBs;
+import com.wang.aishenhuo.pc.api.myBatis.model.XcxDynamicWithBLOBs;
 
 @Service(value = "xcxCommentService")
 public class XcxCommentService {
@@ -21,10 +22,19 @@ public class XcxCommentService {
 	@Autowired
 	private XcxCommentMapper xcxCommentMapper;
 
-//	public List<XcxComment> listXcxComment(XcxComment xcxComment) {
-//		return xcxCommentMapper.selectByExample(new XcxCommentExample());
-//	}
-	
+	public List<XcxCommentWithBLOBs> selectDynamicComments(XcxComment record,List<XcxDynamicWithBLOBs> dlist) {
+		List<XcxCommentWithBLOBs> list = new ArrayList<XcxCommentWithBLOBs>();
+		if(!ObjectUtils.isEmpty(record) && !StringUtils.isEmpty(record.getType()) && null!=dlist && dlist.size()>0) {
+			XcxCommentExample e = new XcxCommentExample();
+			Criteria c = e.createCriteria();
+			c.andIidIn(getIds(dlist));
+			c.andTypeEqualTo(record.getType());
+			e.setOrderByClause(" time desc ");
+			list = xcxCommentMapper.selectByExampleWithBLOBs(e);
+		}
+		return list;
+	}
+
 	public XcxCommentWithBLOBs getXcxComment(String id) {
 		return xcxCommentMapper.selectByPrimaryKey(id);
 	}
@@ -35,6 +45,7 @@ public class XcxCommentService {
 			XcxCommentExample e = new XcxCommentExample();
 			Criteria c = e.createCriteria();
 			c.andIidEqualTo(record.getIid());
+			e.setOrderByClause(" time desc ");
 			list = xcxCommentMapper.selectByExampleWithBLOBs(e);
 		}
 		return list;
@@ -64,4 +75,13 @@ public class XcxCommentService {
 	public int updateByPrimaryKey(XcxComment record) {
 		return xcxCommentMapper.updateByPrimaryKey(record);
 	}
+
+	private List<String> getIds(List<XcxDynamicWithBLOBs> list) {
+		List<String> l = new ArrayList<String>();
+		for(int i=0;i<list.size();i++){
+			l.add(list.get(i).getId());
+		}
+		return l;
+	}
+	
 }

@@ -1,5 +1,6 @@
 package com.wang.aishenhuo.pc.api.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -53,7 +54,7 @@ public class XcxMsgController {
 		XcxUser user = xcxUserService.getXcxUser(sk);
 		if(null!=user&&!StringUtils.isEmpty(user.getId())) {
 			db.setUid(user.getId());
-			db.setTime((int) System.currentTimeMillis());
+			db.setTime((int) (new Date().getTime()/1000));
 			int i = xcxMsgService.insertSelective(db);
 			if(i>0) {
 				j.put("status", 1);

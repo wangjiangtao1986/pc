@@ -1,8 +1,11 @@
 package com.wang.aishenhuo.pc.api.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
+import com.wang.aishenhuo.pc.api.bean.XcxDynamicAndXcxComment;
+import com.wang.aishenhuo.pc.api.myBatis.model.XcxComment;
+import com.wang.aishenhuo.pc.api.myBatis.model.XcxCommentWithBLOBs;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxDynamic;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxDynamicWithBLOBs;
 import com.wang.aishenhuo.pc.api.myBatis.model.XcxUser;
@@ -54,7 +60,7 @@ public class XcxDynamicController {
 		XcxUser user = xcxUserService.getXcxUser(sk);
 		if(null!=user && !StringUtils.isEmpty(user.getId())) {
 			db.setUid(user.getId());
-			db.setTime((int) System.currentTimeMillis());
+			db.setTime((int) (new Date().getTime()/1000));
 			db.setNickname(user.getName());
 			db.setAvatarurl(user.getAvatarurl());
 			int i = xcxDynamicService.insertSelective(db);
@@ -118,36 +124,42 @@ public class XcxDynamicController {
 			xcxDynamic.setUid(user.getId());
 	        PageHelper.startPage(page,pageSize); // 设置分页，参数1=页数，参数2=每页显示条数
 			List<XcxDynamicWithBLOBs> list = xcxDynamicService.selectByExampleWithBLOBs(xcxDynamic);
+			
 			j.put("status", 1);
 			j.put("msg", "获取成功");
-			j.put("list", list);
+			j.put("list", addDC(list));
 		} else {
 			j.put("status", 0);
 			j.put("msg", "获取失败");
 		}
 		return j;
+	}
 
-//		xcxCommentService
+	private List<XcxDynamicAndXcxComment> addDC(List<XcxDynamicWithBLOBs> list) {
+		XcxComment record = new XcxComment();
+		record.setType("dynamic");
+		
+		List<XcxCommentWithBLOBs> clist = xcxCommentService.selectDynamicComments(record,list);
+		
+		List<XcxDynamicAndXcxComment> dclist = new ArrayList<XcxDynamicAndXcxComment>();
+		for(int i=0;i<list.size();i++) {
+			XcxDynamicAndXcxComment s = new XcxDynamicAndXcxComment();
+			BeanUtils.copyProperties(list.get(i), s);
+			s.setList(createDC(clist, s));
+			dclist.add(s);
+		}
+		
+		return dclist;
+	}
 
-//		foreach($list as $v){
-//			$arr[] = $v['id'];
-//		}
-//		$str = '('.implode(',',$arr).')';
-//		$where = 'iid in '.$str.' and type = "dynamic"';
-//		
-//		$comObj = D('Comment');
-//		
-//		$comment = $comObj->table('__COMMENT__ comment')->
-//		field('comment.id,comment.iid,comment.reply,comment.content,user.nickName')->
-//		join('__USER__ user ON user.id = comment.uid','LEFT')->where($where)->order('comment.time desc')->select();
-//		
-//		$arr = array();
-//		foreach($comment as $k=>$v){
-//			$arr[$v['iid']][] = $v;
-//		}
-//		foreach($list as $k=>$v){
-//			$list[$k]['comment'] = $arr[$v['id']];
-//		}
+	private List<XcxCommentWithBLOBs> createDC(List<XcxCommentWithBLOBs> clist, XcxDynamicAndXcxComment s) {
+		List<XcxCommentWithBLOBs> xclist = new ArrayList<XcxCommentWithBLOBs>();
+		for(int j1=0;j1<clist.size();j1++) {
+			if(clist.get(j1).getIid().equals(s.getId())){
+				xclist.add(clist.get(j1));
+			}
+		}
+		return xclist;
 	}
 
 }

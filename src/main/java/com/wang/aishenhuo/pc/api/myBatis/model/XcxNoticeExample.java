@@ -5,17 +5,17 @@ import java.util.List;
 
 public class XcxNoticeExample {
     /**
-     * @mbggenerated 2018-05-22 17:46:16
+     * @mbggenerated 2018-05-23 09:22:31
      */
     protected String orderByClause;
 
     /**
-     * @mbggenerated 2018-05-22 17:46:16
+     * @mbggenerated 2018-05-23 09:22:31
      */
     protected boolean distinct;
 
     /**
-     * @mbggenerated 2018-05-22 17:46:16
+     * @mbggenerated 2018-05-23 09:22:31
      */
     protected List<Criteria> oredCriteria;
 
